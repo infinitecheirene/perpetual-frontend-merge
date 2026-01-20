@@ -1,13 +1,20 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
 
 interface LegitimacyForm {
+  id?: number
   alias: string
   chapter: string
   position: string
@@ -15,13 +22,20 @@ interface LegitimacyForm {
 }
 
 interface Props {
+  mode: "add" | "edit"
   isOpen: boolean
   initialData?: LegitimacyForm
   onClose: () => void
   onSubmitSuccess: () => void
 }
 
-export default function MemberLegitimacyModal({ isOpen, initialData, onClose, onSubmitSuccess }: Props) {
+export default function MemberLegitimacyModal({
+  mode,
+  isOpen,
+  initialData,
+  onClose,
+  onSubmitSuccess,
+}: Props) {
   const [form, setForm] = useState<LegitimacyForm>({
     alias: "",
     chapter: "",
@@ -32,13 +46,18 @@ export default function MemberLegitimacyModal({ isOpen, initialData, onClose, on
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
-    if (initialData) {
+    if (initialData && mode === "edit") {
       setForm(initialData)
     }
-  }, [initialData])
+  }, [initialData, mode])
 
   const handleSubmit = async () => {
-    if (!form.alias || !form.chapter || !form.position || !form.fraternity_number) {
+    if (
+      !form.alias ||
+      !form.chapter ||
+      !form.position ||
+      !form.fraternity_number
+    ) {
       toast({
         title: "Error",
         description: "All fields are required.",
@@ -50,8 +69,13 @@ export default function MemberLegitimacyModal({ isOpen, initialData, onClose, on
     setIsSubmitting(true)
 
     try {
-      const res = await fetch("/api/legitimacy", {
-        method: "POST",
+      const url =
+        mode === "add"
+          ? "/api/legitimacy"
+          : `/api/legitimacy/${initialData?.id}`
+
+      const res = await fetch(url, {
+        method: mode === "add" ? "POST" : "PUT",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +88,10 @@ export default function MemberLegitimacyModal({ isOpen, initialData, onClose, on
       if (res.ok && data.success) {
         toast({
           title: "Success",
-          description: "Legitimacy request submitted.",
+          description:
+            mode === "add"
+              ? "Legitimacy request submitted."
+              : "Legitimacy request updated.",
         })
         onSubmitSuccess()
         onClose()
@@ -91,28 +118,46 @@ export default function MemberLegitimacyModal({ isOpen, initialData, onClose, on
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md w-full">
         <DialogHeader>
-          <DialogTitle>Request Certificate of Legitimacy</DialogTitle>
+          <DialogTitle>
+            {mode === "add"
+              ? "Request Certificate of Legitimacy"
+              : "Edit Certificate of Legitimacy"}
+          </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           <div>
             <Label>Alias</Label>
-            <Input value={form.alias} onChange={(e) => setForm({ ...form, alias: e.target.value })} />
+            <Input
+              value={form.alias}
+              onChange={(e) => setForm({ ...form, alias: e.target.value })}
+            />
           </div>
 
           <div>
             <Label>Chapter</Label>
-            <Input value={form.chapter} onChange={(e) => setForm({ ...form, chapter: e.target.value })} />
+            <Input
+              value={form.chapter}
+              onChange={(e) => setForm({ ...form, chapter: e.target.value })}
+            />
           </div>
 
           <div>
             <Label>Position</Label>
-            <Input value={form.position} onChange={(e) => setForm({ ...form, position: e.target.value })} />
+            <Input
+              value={form.position}
+              onChange={(e) => setForm({ ...form, position: e.target.value })}
+            />
           </div>
 
           <div>
             <Label>Fraternity Number</Label>
-            <Input value={form.fraternity_number} onChange={(e) => setForm({ ...form, fraternity_number: e.target.value })} />
+            <Input
+              value={form.fraternity_number}
+              onChange={(e) =>
+                setForm({ ...form, fraternity_number: e.target.value })
+              }
+            />
           </div>
         </div>
 
@@ -121,7 +166,11 @@ export default function MemberLegitimacyModal({ isOpen, initialData, onClose, on
             Cancel
           </Button>
           <Button onClick={handleSubmit} disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Submit"}
+            {isSubmitting
+              ? "Submitting..."
+              : mode === "add"
+                ? "Submit"
+                : "Update"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,12 +1,22 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search, Filter, Eye, Plus, ChevronRight, ChevronLeft } from "lucide-react"
+import {
+  Search,
+  Filter,
+  Eye,
+  Plus,
+  ChevronRight,
+  ChevronLeft,
+  Pencil,
+  Trash,
+} from "lucide-react"
 import MemberLayout from "@/components/memberLayout"
 import { useAuth } from "@/hooks/useAuth"
 import { useToast } from "@/components/ui/use-toast"
-import MemberBusinessModal from "@/components/member/partners/add-modal"
+import MemberBusinessModal from "@/components/member/partners/add-edit-modal"
 import MemberViewBusinessModal from "@/components/member/partners/view-modal"
+import { MemberDeleteBusinessModal } from "@/components/member/partners/delete-modal"
 
 interface BusinessPartner {
   id: number
@@ -48,10 +58,12 @@ export default function MemberPartnersPage() {
   const [statusFilter, setStatusFilter] = useState("all")
 
   // Modals
-  const [selectedPartner, setSelectedPartner] = useState<BusinessPartner | null>(null)
+  const [selectedPartner, setSelectedPartner] =
+    useState<BusinessPartner | null>(null)
   const [isViewOpen, setIsViewOpen] = useState(false)
   const [isAddOpen, setIsAddOpen] = useState(false)
-
+  const [isEditOpen, setIsEditOpen] = useState(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   // Fetch partners with optional page parameter
   const fetchPartners = async (page: number = 1) => {
     try {
@@ -63,7 +75,9 @@ export default function MemberPartnersPage() {
       if (statusFilter !== "all") params.append("status", statusFilter)
       if (searchQuery) params.append("search", searchQuery)
 
-      const res = await fetch(`/api/business-partners?${params.toString()}`, { credentials: "include" })
+      const res = await fetch(`/api/business-partners?${params.toString()}`, {
+        credentials: "include",
+      })
       const data = await res.json()
 
       if (res.ok && data.success) {
@@ -77,11 +91,19 @@ export default function MemberPartnersPage() {
           to: data.data.to,
         })
       } else {
-        toast({ variant: "destructive", title: "Error", description: data.message || "Failed to fetch partners" })
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: data.message || "Failed to fetch partners",
+        })
       }
     } catch (err) {
       console.error(err)
-      toast({ variant: "destructive", title: "Error", description: "Failed to fetch partners" })
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to fetch partners",
+      })
     } finally {
       setLoading(false)
     }
@@ -101,7 +123,11 @@ export default function MemberPartnersPage() {
   }, [authLoading, user, pagination.current_page])
 
   const formatDate = (dateString: string) =>
-    new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
+    new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    })
 
   if (authLoading) {
     return (
@@ -122,6 +148,47 @@ export default function MemberPartnersPage() {
     }
   }
 
+  const openDeleteModal = (partner: BusinessPartner) => {
+    setSelectedPartner(partner)
+    setIsDeleteOpen(true)
+  }
+
+  const handleDelete = async () => {
+    if (!selectedPartner) return
+
+    try {
+      const res = await fetch(`/api/business-partners/${selectedPartner.id}`, {
+        method: "DELETE",
+        credentials: "include",
+      })
+      const data = await res.json()
+
+      if (res.ok && data.success) {
+        toast({
+          title: "Deleted",
+          description: `Business "${selectedPartner.business_name}" deleted successfully`,
+        })
+        fetchPartners(pagination.current_page)
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: data.message || "Failed to delete business",
+        })
+      }
+    } catch (err) {
+      console.error(err)
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Server error",
+      })
+    } finally {
+      setIsDeleteOpen(false)
+      setSelectedPartner(null)
+    }
+  }
+
   return (
     <MemberLayout>
       <div className="min-h-screen bg-gray-50">
@@ -129,8 +196,12 @@ export default function MemberPartnersPage() {
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">My Business Applications</h1>
-              <p className="text-sm text-gray-500">Manage your business partner applications</p>
+              <h1 className="text-2xl font-bold text-gray-900">
+                My Business Applications
+              </h1>
+              <p className="text-sm text-gray-500">
+                Manage your business partner applications
+              </p>
             </div>
             <button
               onClick={() => setIsAddOpen(true)}
@@ -180,25 +251,48 @@ export default function MemberPartnersPage() {
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
               </div>
             ) : partners.length === 0 ? (
-              <div className="text-center py-12 text-gray-500">No business partners found.</div>
+              <div className="text-center py-12 text-gray-500">
+                No business partners found.
+              </div>
             ) : (
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Business Name</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Created At</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Business Name
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Category
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Description
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Created At
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {partners.map((partner) => (
-                    <tr key={partner.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4 text-sm text-gray-900">{partner.business_name}</td>
-                      <td className="px-6 py-4 text-sm text-gray-900">{partner.category}</td>
-                      <td className="px-6 py-4 text-sm text-gray-900">{partner.description || "-"}</td>
+                    <tr
+                      key={partner.id}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
+                      <td className="px-6 py-4 text-sm text-gray-900">
+                        {partner.business_name}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-900">
+                        {partner.category}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-900">
+                        {partner.description || "-"}
+                      </td>
                       <td className="px-6 py-4">
                         <span
                           className={`px-2 py-1 text-xs font-semibold rounded-full ${
@@ -209,10 +303,13 @@ export default function MemberPartnersPage() {
                                 : "bg-red-100 text-red-700"
                           }`}
                         >
-                          {partner.status.charAt(0).toUpperCase() + partner.status.slice(1)}
+                          {partner.status.charAt(0).toUpperCase() +
+                            partner.status.slice(1)}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">{formatDate(partner.created_at)}</td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
+                        {formatDate(partner.created_at)}
+                      </td>
                       <td className="px-6 py-4 text-sm flex gap-2">
                         <button
                           onClick={() => {
@@ -222,6 +319,23 @@ export default function MemberPartnersPage() {
                           className="text-blue-400 p-1.5 rounded hover:bg-blue-50"
                         >
                           <Eye />
+                        </button>
+                        {partner.status === "pending" && (
+                          <button
+                            onClick={() => {
+                              setSelectedPartner(partner)
+                              setIsEditOpen(true)
+                            }}
+                            className="text-green-400 p-1.5 rounded hover:bg-green-50"
+                          >
+                            <Pencil />
+                          </button>
+                        )}
+                        <button
+                          onClick={() => openDeleteModal(partner)}
+                          className="text-red-400 p-1.5 rounded hover:bg-red-50"
+                        >
+                          <Trash />
                         </button>
                       </td>
                     </tr>
@@ -235,7 +349,8 @@ export default function MemberPartnersPage() {
           {pagination.total > pagination.per_page && (
             <div className="px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-sm text-gray-700">
-                Showing {pagination.from} to {pagination.to} of {pagination.total} results
+                Showing {pagination.from} to {pagination.to} of{" "}
+                {pagination.total} results
               </div>
 
               <div className="flex items-center gap-2">
@@ -248,25 +363,34 @@ export default function MemberPartnersPage() {
                 </button>
 
                 <div className="flex items-center gap-1">
-                  {Array.from({ length: Math.min(5, pagination.last_page) }, (_, i) => {
-                    let pageNum
-                    if (pagination.last_page <= 5) pageNum = i + 1
-                    else if (pagination.current_page <= 3) pageNum = i + 1
-                    else if (pagination.current_page >= pagination.last_page - 2) pageNum = pagination.last_page - 4 + i
-                    else pageNum = pagination.current_page - 2 + i
+                  {Array.from(
+                    { length: Math.min(5, pagination.last_page) },
+                    (_, i) => {
+                      let pageNum
+                      if (pagination.last_page <= 5) pageNum = i + 1
+                      else if (pagination.current_page <= 3) pageNum = i + 1
+                      else if (
+                        pagination.current_page >=
+                        pagination.last_page - 2
+                      )
+                        pageNum = pagination.last_page - 4 + i
+                      else pageNum = pagination.current_page - 2 + i
 
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => goToPage(pageNum)}
-                        className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${
-                          pagination.current_page === pageNum ? "bg-orange-600 text-white" : "border border-gray-300 hover:bg-gray-50"
-                        }`}
-                      >
-                        {pageNum}
-                      </button>
-                    )
-                  })}
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => goToPage(pageNum)}
+                          className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${
+                            pagination.current_page === pageNum
+                              ? "bg-orange-600 text-white"
+                              : "border border-gray-300 hover:bg-gray-50"
+                          }`}
+                        >
+                          {pageNum}
+                        </button>
+                      )
+                    },
+                  )}
                 </div>
 
                 <button
@@ -297,8 +421,28 @@ export default function MemberPartnersPage() {
           initialData={null}
           onClose={() => setIsAddOpen(false)}
           onSubmitSuccess={() => {
-            fetchPartners(1) 
+            fetchPartners(1)
           }}
+        />
+
+        <MemberBusinessModal
+          isOpen={isEditOpen}
+          mode="edit"
+          initialData={selectedPartner}
+          onClose={() => setIsEditOpen(false)}
+          onSubmitSuccess={() => {
+            fetchPartners(1)
+          }}
+        />
+
+        <MemberDeleteBusinessModal
+          isOpen={isDeleteOpen}
+          itemName={selectedPartner?.business_name || ""}
+          onClose={() => {
+            setIsDeleteOpen(false)
+            setSelectedPartner(null)
+          }}
+          onConfirm={handleDelete}
         />
       </div>
     </MemberLayout>

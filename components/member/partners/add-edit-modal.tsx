@@ -16,7 +16,13 @@ interface MemberBusinessModalProps {
   onSubmitSuccess: () => void
 }
 
-export default function MemberBusinessModal({ isOpen, mode, initialData, onClose, onSubmitSuccess }: MemberBusinessModalProps) {
+export default function MemberBusinessModal({
+  isOpen,
+  mode,
+  initialData,
+  onClose,
+  onSubmitSuccess,
+}: MemberBusinessModalProps) {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [file, setFile] = useState<File | null>(null)
@@ -29,7 +35,6 @@ export default function MemberBusinessModal({ isOpen, mode, initialData, onClose
     photo: null as string | null,
   })
 
-  // Reset form helper
   const resetForm = () => {
     setFormData({
       id: null,
@@ -50,14 +55,19 @@ export default function MemberBusinessModal({ isOpen, mode, initialData, onClose
         website_link: initialData.website_link || "",
         description: initialData.description || "",
         category: initialData.category || "",
-        photo: initialData.photo ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${initialData.photo}` : null,
+        photo: initialData.photo
+          ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${initialData.photo}`
+          : null,
       })
+      setFile(null)
     } else {
       resetForm()
     }
   }, [mode, initialData])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
@@ -85,11 +95,19 @@ export default function MemberBusinessModal({ isOpen, mode, initialData, onClose
   const handleSubmit = async () => {
     // Validation
     if (!formData.business_name) {
-      toast({ variant: "destructive", title: "Error", description: "Business name is required." })
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Business name is required.",
+      })
       return
     }
     if (formData.website_link && !isValidUrl(formData.website_link)) {
-      toast({ variant: "destructive", title: "Error", description: "Please enter a valid website link." })
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please enter a valid website link.",
+      })
       return
     }
 
@@ -97,15 +115,24 @@ export default function MemberBusinessModal({ isOpen, mode, initialData, onClose
       setLoading(true)
       const payload = new FormData()
 
+      // Append all fields except photo
       Object.entries(formData).forEach(([key, value]) => {
         if (value !== undefined && value !== null && key !== "photo") {
           payload.append(key, value as string)
         }
       })
 
-      if (file) payload.append("photo", file)
+      // Append file or empty string to clear photo
+      if (file) {
+        payload.append("photo", file)
+      } else if (formData.photo === null && mode === "edit") {
+        payload.append("photo", "")
+      }
 
-      const url = mode === "create" ? "/api/business-partners" : `/api/business-partners/${formData.id}`
+      const url =
+        mode === "create"
+          ? "/api/business-partners"
+          : `/api/business-partners/${formData.id}`
       const method = mode === "create" ? "POST" : "PUT"
 
       const res = await fetch(url, {
@@ -113,12 +140,13 @@ export default function MemberBusinessModal({ isOpen, mode, initialData, onClose
         body: payload,
         credentials: "include",
       })
+
       const data = await res.json()
 
       if (res.ok && data.success) {
         toast({ title: "Success", description: data.message })
         onSubmitSuccess()
-        resetForm() // <-- Reset form after successful submission
+        resetForm()
         onClose()
       } else {
         toast({
@@ -139,7 +167,6 @@ export default function MemberBusinessModal({ isOpen, mode, initialData, onClose
     }
   }
 
-  // Clear form when modal closes
   const handleClose = () => {
     resetForm()
     onClose()
@@ -150,51 +177,77 @@ export default function MemberBusinessModal({ isOpen, mode, initialData, onClose
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white w-full max-w-md p-6 rounded-lg relative">
-        <button onClick={handleClose} className="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+        <button
+          onClick={handleClose}
+          className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+        >
           <X />
         </button>
 
-        <h2 className="text-lg font-semibold mb-4">{mode === "create" ? "Add Business" : "Edit Business"}</h2>
+        <h2 className="text-lg font-semibold mb-4">
+          {mode === "create" ? "Add Business" : "Edit Business"}
+        </h2>
 
         <div className="space-y-3">
           <div>
             <Label>Business Name</Label>
-            <Input name="business_name" placeholder="e.g. My Business" value={formData.business_name} onChange={handleChange} />
+            <Input
+              name="business_name"
+              placeholder="e.g. My Business"
+              value={formData.business_name}
+              onChange={handleChange}
+            />
           </div>
 
           <div>
             <Label>Website Link</Label>
-            <Input name="website_link" placeholder="e.g. https://example.com" value={formData.website_link} onChange={handleChange} />
+            <Input
+              name="website_link"
+              placeholder="e.g. https://example.com"
+              value={formData.website_link}
+              onChange={handleChange}
+            />
           </div>
 
           <div>
             <Label>Photo</Label>
             <Input type="file" accept="image/*" onChange={handleFileChange} />
-            {file ? (
+            {(file || formData.photo) && (
               <div className="mt-2 flex items-center gap-2">
-                <img src={URL.createObjectURL(file)} alt="Preview" className="w-24 h-24 object-cover rounded border" />
-                <Button variant="ghost" className="text-red-500" onClick={clearPhoto}>
+                <img
+                  src={file ? URL.createObjectURL(file) : formData.photo!}
+                  alt="Preview"
+                  className="w-24 h-24 object-cover rounded border"
+                />
+                <Button
+                  variant="ghost"
+                  className="text-red-500"
+                  onClick={clearPhoto}
+                >
                   Remove
                 </Button>
               </div>
-            ) : formData.photo ? (
-              <div className="mt-2 flex items-center gap-2">
-                <img src={formData.photo} alt="Current" className="w-24 h-24 object-cover rounded border" />
-                <Button variant="ghost" className="text-red-500" onClick={clearPhoto}>
-                  Remove
-                </Button>
-              </div>
-            ) : null}
+            )}
           </div>
 
           <div>
             <Label>Description</Label>
-            <Textarea name="description" placeholder="e.g. A description of your business" value={formData.description} onChange={handleChange} />
+            <Textarea
+              name="description"
+              placeholder="e.g. A description of your business"
+              value={formData.description}
+              onChange={handleChange}
+            />
           </div>
 
           <div>
             <Label>Category</Label>
-            <Input name="category" placeholder="e.g. Retail, Technology, Food & Beverage" value={formData.category} onChange={handleChange} />
+            <Input
+              name="category"
+              placeholder="e.g. Retail, Technology, Food & Beverage"
+              value={formData.category}
+              onChange={handleChange}
+            />
           </div>
         </div>
 

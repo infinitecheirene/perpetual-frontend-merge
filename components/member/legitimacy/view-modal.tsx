@@ -1,6 +1,11 @@
 "use client"
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 
 interface MemberLegitimacy {
@@ -20,13 +25,18 @@ interface ViewLegitimacyModalProps {
   onClose: () => void
 }
 
-export default function ViewLegitimacyModal({ isOpen, selectedItem, onClose }: ViewLegitimacyModalProps) {
+export default function ViewLegitimacyModal({
+  isOpen,
+  selectedItem,
+  onClose,
+}: ViewLegitimacyModalProps) {
   if (!selectedItem) return null
 
   const statusConfig = {
     pending: {
       label: "Pending Review",
-      description: "These are the details you submitted. Your request is currently under review.",
+      description:
+        "These are the details you submitted. Your request is currently under review.",
       badge: "secondary",
     },
     approved: {
@@ -62,7 +72,8 @@ export default function ViewLegitimacyModal({ isOpen, selectedItem, onClose }: V
         <div className="space-y-3 text-sm">
           {selectedItem.status === "rejected" && selectedItem.admin_note && (
             <div>
-              <span className="font-medium">Note:</span> {selectedItem?.admin_note || ""}
+              <span className="font-medium">Note:</span>{" "}
+              {selectedItem?.admin_note || ""}
             </div>
           )}
 
@@ -75,14 +86,19 @@ export default function ViewLegitimacyModal({ isOpen, selectedItem, onClose }: V
           </div>
 
           <div>
-            <span className="font-medium">Position:</span> {selectedItem.position}
+            <span className="font-medium">Position:</span>{" "}
+            {selectedItem.position}
           </div>
 
           <div>
-            <span className="font-medium">Fraternity #:</span> {selectedItem.fraternity_number}
+            <span className="font-medium">Fraternity #:</span>{" "}
+            {selectedItem.fraternity_number}
           </div>
 
-          <div className="text-xs text-muted-foreground pt-2">Submitted on {new Date(selectedItem.created_at).toLocaleDateString()}</div>
+          <div className="text-xs text-muted-foreground pt-2">
+            Submitted on{" "}
+            {new Date(selectedItem.created_at).toLocaleDateString()}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

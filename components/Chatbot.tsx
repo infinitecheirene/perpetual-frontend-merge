@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client"
 
 import React, { useState, useRef, useEffect } from "react"
@@ -6,6 +7,16 @@ import Image from "next/image"
 
 interface Message {
   type: "bot" | "user"
+=======
+'use client'
+
+import React, { useState, useRef, useEffect } from 'react'
+import { X, Send } from 'lucide-react'
+import Image from 'next/image'
+
+interface Message {
+  type: 'bot' | 'user'
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
   text: string
   quickReplies?: string[]
 }
@@ -14,24 +25,38 @@ export default function Chatbot() {
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     {
+<<<<<<< HEAD
       type: "bot",
       text: "Hi there! 👋 How can I help you today?",
       quickReplies: ["Admissions", "Office Hours", "Contact Info"],
     },
   ])
   const [inputMessage, setInputMessage] = useState("")
+=======
+      type: 'bot',
+      text: 'Hi there! 👋 How can I help you today?',
+      quickReplies: ['Admissions', 'Office Hours', 'Contact Info'],
+    },
+  ])
+  const [inputMessage, setInputMessage] = useState('')
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
   const [isLoading, setIsLoading] = useState(false)
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
+<<<<<<< HEAD
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+=======
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
   }, [messages, isLoading])
 
   const handleSendMessage = async (message?: string) => {
     const text = message || inputMessage
     if (!text.trim() || isLoading) return
 
+<<<<<<< HEAD
     setMessages(prev => [...prev, { type: "user", text }])
     setInputMessage("")
     setIsLoading(true)
@@ -40,6 +65,16 @@ export default function Chatbot() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+=======
+    setMessages(prev => [...prev, { type: 'user', text }])
+    setInputMessage('')
+    setIsLoading(true)
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
         body: JSON.stringify({ message: text }),
       })
 
@@ -48,17 +83,28 @@ export default function Chatbot() {
       setMessages(prev => [
         ...prev,
         {
+<<<<<<< HEAD
           type: "bot",
           text: data.reply ?? "No response received.",
           quickReplies: ["Admissions", "Programs", "Visit Campus"],
+=======
+          type: 'bot',
+          text: data.reply ?? 'No response received.',
+          quickReplies: ['Admissions', 'Programs', 'Visit Campus'],
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
         },
       ])
     } catch {
       setMessages(prev => [
         ...prev,
         {
+<<<<<<< HEAD
           type: "bot",
           text: "⚠️ Unable to connect right now. Please try again later.",
+=======
+          type: 'bot',
+          text: '⚠️ Unable to connect right now. Please try again later.',
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
         },
       ])
     } finally {
@@ -66,12 +112,17 @@ export default function Chatbot() {
     }
   }
 
+<<<<<<< HEAD
+=======
+  /** ✅ FIX: quick reply handler */
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
   const handleQuickReply = (reply: string) => {
     handleSendMessage(reply)
   }
 
   return (
     <>
+<<<<<<< HEAD
       {/* Mobile Backdrop */}
       {isChatOpen && (
         <div
@@ -84,6 +135,12 @@ export default function Chatbot() {
       <button
         onClick={() => setIsChatOpen(prev => !prev)}
         className="fixed bottom-20 right-5 md:right-15 lg:bottom-6 lg:right-6 bg-linear-to-r from-orange-600 to-orange-500 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 z-50"
+=======
+      {/* Floating Chatbot Button */}
+      <button
+        onClick={() => setIsChatOpen(!isChatOpen)}
+        className="fixed bottom-6 right-6 bg-linear-to-r from-orange-600 to-orange-500 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 z-50"
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
         aria-label="Open Chatbot"
       >
         {isChatOpen ? (
@@ -95,11 +152,16 @@ export default function Chatbot() {
               alt="Perpetual Village Logo"
               width={40}
               height={40}
+<<<<<<< HEAD
               className="object-contain animate-pulse"
+=======
+              className="w-full h-full object-contain animate-pulse"
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
               priority
             />
           </div>
         )}
+<<<<<<< HEAD
       </button>
 
       {/* Chat Window */}
@@ -113,12 +175,25 @@ export default function Chatbot() {
         >
           {/* Header */}
           <div className="bg-linear-to-r from-orange-600 to-orange-500 text-white p-4 flex items-center gap-3 sticky top-0 z-10">
+=======
+        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center animate-bounce">
+          1
+        </span>
+      </button>
+
+      {/* Chatbot Window */}
+      {isChatOpen && (
+        <div className="fixed bottom-24 right-6 h-[80vh] w-[50vh] lg:w-96 lg:h-[550px] bg-white rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border border-gray-200">
+          {/* Header */}
+          <div className="bg-linear-to-r from-orange-600 to-orange-500 text-white p-4 flex items-center gap-3">
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
             <div className="bg-white p-2 rounded-full">
               <Image
                 src="/pamplona_tres.png"
                 alt="Perpetual Village Logo"
                 width={24}
                 height={24}
+<<<<<<< HEAD
                 className="object-contain"
               />
             </div>
@@ -132,6 +207,16 @@ export default function Chatbot() {
               </p>
             </div>
 
+=======
+                className="w-6 h-6 object-contain"
+                priority
+              />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-bold text-lg">Perpetual College Assistant</h3>
+              <p className="text-xs text-orange-100">Las Piñas Campus</p>
+            </div>
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
             <button
               onClick={() => setIsChatOpen(false)}
               className="hover:bg-orange-700 p-1 rounded"
@@ -146,16 +231,28 @@ export default function Chatbot() {
               <div key={index}>
                 <div
                   className={`flex ${
+<<<<<<< HEAD
                     message.type === "user"
                       ? "justify-end"
                       : "justify-start"
+=======
+                    message.type === 'user'
+                      ? 'justify-end'
+                      : 'justify-start'
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
                   }`}
                 >
                   <div
                     className={`max-w-[85%] p-3 rounded-2xl ${
+<<<<<<< HEAD
                       message.type === "user"
                         ? "bg-orange-600 text-white rounded-br-none"
                         : "bg-white text-gray-800 shadow-sm rounded-bl-none"
+=======
+                      message.type === 'user'
+                        ? 'bg-orange-600 text-white rounded-br-none'
+                        : 'bg-white text-gray-800 shadow-sm rounded-bl-none'
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
                     }`}
                   >
                     <p className="text-sm whitespace-pre-line break-words">
@@ -164,7 +261,12 @@ export default function Chatbot() {
                   </div>
                 </div>
 
+<<<<<<< HEAD
                 {message.type === "bot" && message.quickReplies && (
+=======
+                {/* Quick Replies */}
+                {message.type === 'bot' && message.quickReplies && (
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
                   <div className="mt-3 flex flex-wrap gap-2">
                     {message.quickReplies.map((reply, idx) => (
                       <button
@@ -193,15 +295,25 @@ export default function Chatbot() {
               <input
                 value={inputMessage}
                 onChange={e => setInputMessage(e.target.value)}
+<<<<<<< HEAD
                 onKeyDown={e => e.key === "Enter" && handleSendMessage()}
                 disabled={isLoading}
                 className="flex-1 border rounded px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+=======
+                onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
+                disabled={isLoading}
+                className="flex-1 border rounded px-3 py-2 text-sm"
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
                 placeholder="Type your message..."
               />
               <button
                 onClick={() => handleSendMessage()}
                 disabled={isLoading}
+<<<<<<< HEAD
                 className="bg-orange-600 text-white p-3 rounded hover:bg-orange-700 transition"
+=======
+                className="bg-orange-600 text-white p-2 rounded"
+>>>>>>> d961c4d44f144ef19bb3ed9d984f12c663c610e4
               >
                 <Send className="w-5 h-5" />
               </button>

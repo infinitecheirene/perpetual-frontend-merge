@@ -15,7 +15,6 @@ export default function MemberLayout({ children }: MemberLayoutProps) {
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
   const [user, setUser] = useState<any>(null);
-
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   useEffect(() => {
@@ -57,7 +56,7 @@ export default function MemberLayout({ children }: MemberLayoutProps) {
   // Show loading state while checking auth
   if (isChecking) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-emerald-50 via-white to-orange-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
           <p className="text-gray-600">Verifying authentication...</p>
@@ -72,12 +71,12 @@ export default function MemberLayout({ children }: MemberLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-linear-to-br from-emerald-50 via-white to-orange-50">
       {/* Sidebar - Desktop only */}
-      <MemberSidebar 
+      <MemberSidebar
         isCollapsed={isSidebarCollapsed}
         setIsCollapsed={setIsSidebarCollapsed}
-        />
+      />
 
       {/* Main Content */}
       <div className={`pb-20 lg:pb-0 transition-all duration-300  ${isSidebarCollapsed ? "lg:ml-[70px]" : "lg:ml-[300px]"}  `}>

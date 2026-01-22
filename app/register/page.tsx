@@ -18,7 +18,6 @@ export default function RegisterPage() {
     confirmPassword: "",
     phoneNumber: "",
     address: "",
-    schoolRegistrationNumber: "",
     fraternityNumber: "",
   })
   const [loading, setLoading] = useState(false)
@@ -46,16 +45,6 @@ export default function RegisterPage() {
       return
     }
 
-    if (formData.schoolRegistrationNumber.length < 12) {
-      setError("School Registration Number must be at least 12 characters")
-      toast({
-        variant: "destructive",
-        title: "Invalid Registration Number",
-        description: "School Registration Number must be at least 12 characters.",
-        duration: 5000,
-      })
-      return
-    }
 
     if (formData.password.length < 8) {
       setError("Password must be at least 8 characters")
@@ -87,7 +76,6 @@ export default function RegisterPage() {
       fd.append("password", formData.password);
       fd.append("phone_number", formData.phoneNumber);
       fd.append("address", formData.address);
-      fd.append("school_registration_number", formData.schoolRegistrationNumber);
       fd.append("fraternity_number", formData.fraternityNumber);
       console.log("Submitting:", formData);
 
@@ -218,23 +206,9 @@ export default function RegisterPage() {
                   required
                 />
               </motion.div>
-
-              {/* phone number */}
-              <motion.div variants={fieldVariants}>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
-                <input
-                  type="tel"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition"
-                  placeholder="+63 912 345 6789"
-                  required
-                />
-              </motion.div>
-
+              
               {/* email */}
-              <motion.div variants={fieldVariants} className="md:col-span-2">
+              <motion.div variants={fieldVariants}>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
                 <input
                   type="email"
@@ -249,14 +223,14 @@ export default function RegisterPage() {
 
               {/* phone number */}
               <motion.div variants={fieldVariants}>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">School Registration Number *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
                 <input
-                  type="text"
-                  name="schoolRegistrationNumber"
-                  value={formData.schoolRegistrationNumber}
+                  type="tel"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition"
-                  placeholder="School Registration Number"
+                  placeholder="+63 912 345 6789"
                   required
                 />
               </motion.div>

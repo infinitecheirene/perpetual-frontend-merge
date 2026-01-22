@@ -18,6 +18,8 @@ import {
   Building,
   Heart,
   TrendingUp,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card"
@@ -30,6 +32,7 @@ import {
 } from "@/components/ui/carousel"
 
 import CTASection from "@/components/cta-section";
+import Marquee from "react-fast-marquee";
 
 interface NewsArticle {
   id: number;
@@ -62,32 +65,136 @@ interface Testimonial {
   message: string;
 }
 
-const BUSINESS_PARTNERS = [
-  { name: "Perpetual Help System DALTA", logo: "/partners/perpetual.png" },
-  { name: "Barangay Council", logo: "/partners/barangay.png" },
-  { name: "Local Business Association", logo: "/partners/lba.png" },
-  { name: "Community Health Center", logo: "/partners/health.png" },
-  { name: "Youth Development Office", logo: "/partners/youth.png" },
-  { name: "Public Safety Office", logo: "/partners/safety.png" },
+interface BusinessPartner {
+  id: number;
+  business_name: string;
+  category?: string;
+  description?: string;
+  website_link?: string;
+  photo?: string;
+  status: "pending" | "approved" | "rejected";
+  admin_note?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+const CAROUSEL_VIDEOS = [
+  // Campus
+  { id: 1, src: "https://sblfsg3qxw4rjyfs.public.blob.vercel-storage.com/videos/perpetual-campus.mp4", title: "Campus Tour" },
+
+  // Programs
+  { id: 2, src: "https://sblfsg3qxw4rjyfs.public.blob.vercel-storage.com/videos/academic-programs.mp4", title: "Academic Programs" },
+  { id: 3, src: "https://sblfsg3qxw4rjyfs.public.blob.vercel-storage.com/videos/nursing.mp4", title: "Nursing" },
+  { id: 4, src: "https://sblfsg3qxw4rjyfs.public.blob.vercel-storage.com/videos/psychology.mp4", title: "Psychology" },
+  { id: 5, src: "https://sblfsg3qxw4rjyfs.public.blob.vercel-storage.com/videos/engineering.mp4", title: "Engineering" },
+  { id: 6, src: "https://sblfsg3qxw4rjyfs.public.blob.vercel-storage.com/videos/theraphy.mp4", title: "Physical Therapy" },
+
+  // Facilities / Labs
+  { id: 7, src: "https://sblfsg3qxw4rjyfs.public.blob.vercel-storage.com/videos/technology-labs.mp4", title: "Technology Labs" },
+  { id: 8, src: "https://sblfsg3qxw4rjyfs.public.blob.vercel-storage.com/videos/multimedia.mp4", title: "Multimedia" },
+
+  // Student Life / Events
+  { id: 9, src: "https://sblfsg3qxw4rjyfs.public.blob.vercel-storage.com/videos/student-life.mp4", title: "Student Life" },
+  { id: 10, src: "https://sblfsg3qxw4rjyfs.public.blob.vercel-storage.com/videos/backtoschool.mp4", title: "Back to School" },
+  { id: 11, src: "https://sblfsg3qxw4rjyfs.public.blob.vercel-storage.com/videos/christmas.mp4", title: "Christmas ID" },
+  { id: 12, src: "https://sblfsg3qxw4rjyfs.public.blob.vercel-storage.com/videos/exercise.mp4", title: "Commencement Exercise" },
 ];
 
 export default function Home() {
   const [announcements, setAnnouncements] = useState<AnnouncementItem[]>([]);
   const [announcementLoading, setAnnouncementLoading] = useState(true);
   const [news, setNews] = useState<NewsArticle[]>([]);
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState<AnnouncementItem | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(
-    null
-  );
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [testimonialLoading, setTestimonialLoading] = useState(true);
+  const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null);
+  const [testimonialCarouselIndex, setTestimonialCarouselIndex] = useState(0);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [businessPartners, setBusinessPartners] = useState<BusinessPartner[]>([]);
+  const [partnersLoading, setPartnersLoading] = useState(true);
+
+  // Static testimonials data
+  const staticTestimonials: Testimonial[] = [
+    {
+      id: 1,
+      name: "Marco Santos",
+      role: "Grand Master, Tau Gamma Philippines",
+      message: "This platform has completely transformed how our organization connects and shares knowledge. The interactive features and community engagement have strengthened our brotherhood and mission.",
+    },
+    {
+      id: 2,
+      name: "Anton Reyes",
+      role: "Vice Grand Master, Tau Gamma Philippines",
+      message: "Exceptional tool for keeping our members informed and engaged. The communication capabilities have made coordination seamless across all chapters.",
+    },
+    {
+      id: 3,
+      name: "Carlos Villarreal",
+      role: "Treasurer, Tau Gamma Philippines",
+      message: "Outstanding platform for managing our organization's activities and events. The transparency and accessibility features are remarkable.",
+    },
+    {
+      id: 4,
+      name: "Rafael Gutierrez",
+      role: "Secretary, Tau Gamma Philippines",
+      message: "Perfect solution for documentation and record-keeping. Our organizational efficiency has improved significantly since using this platform.",
+    },
+    {
+      id: 5,
+      name: "Juan Mercado",
+      role: "Member Relations Director, Tau Gamma Philippines",
+      message: "Invaluable for fostering stronger connections among our members. The collaborative features enable better engagement and support within the fraternity.",
+    },
+    {
+      id: 6,
+      name: "Luis Fernandez",
+      role: "Events Coordinator, Tau Gamma Philippines",
+      message: "An excellent resource for organizing and promoting our events. The reach and engagement we've achieved have exceeded our expectations.",
+    },
+    {
+      id: 7,
+      name: "Diego Morales",
+      role: "Scholarship Chair, Tau Gamma Philippines",
+      message: "Great platform for disseminating scholarship opportunities and supporting member development. It's making a real impact on our members' futures.",
+    },
+    {
+      id: 8,
+      name: "Miguel Castillo",
+      role: "Pledge Master, Tau Gamma Philippines",
+      message: "Excellent tool for guiding and mentoring our new members. The resources available help new pledges understand our values and traditions.",
+    },
+    {
+      id: 9,
+      name: "Alfonso Ramos",
+      role: "Alumni Relations Officer, Tau Gamma Philippines",
+      message: "Perfect bridge between our active members and alumni community. Reconnecting with graduates has never been easier.",
+    },
+    {
+      id: 10,
+      name: "Roberto Villanueva",
+      role: "Social Events Chair, Tau Gamma Philippines",
+      message: "Outstanding platform for building camaraderie and fostering brotherhood. Our social activities have become more inclusive and engaging.",
+    },
+    {
+      id: 11,
+      name: "Enrique Domingo",
+      role: "Community Service Director, Tau Gamma Philippines",
+      message: "Powerful tool for organizing our community outreach programs. We can now coordinate with greater efficiency and track our impact better.",
+    },
+    {
+      id: 12,
+      name: "Vicente Torres",
+      role: "Standards Chair, Tau Gamma Philippines",
+      message: "Comprehensive platform for upholding our fraternity's standards and values. Communication with members regarding expectations is now seamless.",
+    },
+  ];
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
         setAnnouncementLoading(true);
 
-        const res = await fetch("/api/announcements/published?per_page=6");
+        const res = await fetch("/api/announcements/published?per_page=8");
 
         if (!res.ok) {
           throw new Error(`HTTP error ${res.status}`);
@@ -115,18 +222,26 @@ export default function Home() {
     fetchAnnouncements();
   }, []);
 
-
   useEffect(() => {
     const fetchNews = async () => {
       try {
         setLoading(true);
+        
+        console.log("[Home] 🔍 Fetching news from: /api/news/published?per_page=3");
+        
         const response = await fetch("/api/news/published?per_page=3");
 
+        console.log("[Home] 📡 Response status:", response.status);
+        console.log("[Home] 📡 Response ok:", response.ok);
+
         if (!response.ok) {
+          const errorText = await response.text();
+          console.error("[Home] ❌ Error response:", errorText);
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const result = await response.json();
+        console.log("[Home] ✅ API response:", result);
 
         if (result.success) {
           let newsData: NewsArticle[] = [];
@@ -139,12 +254,14 @@ export default function Home() {
             }
           }
 
+          console.log("[Home] 📰 Processed news data:", newsData);
           setNews(newsData);
         } else {
+          console.error("[Home] ❌ API returned success: false");
           throw new Error(result.message || "Failed to fetch news");
         }
       } catch (error) {
-        console.error("[Home] Failed to fetch news:", error);
+        console.error("[Home] 💥 Failed to fetch news:", error);
       } finally {
         setLoading(false);
       }
@@ -154,36 +271,24 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const fetchTestimonials = async () => {
+    const fetchBusinessPartners = async () => {
       try {
-        setTestimonialLoading(true);
+        setPartnersLoading(true);
+        const res = await fetch('/api/business-partners');
+        const data = await res.json();
 
-        const res = await fetch("/api/testimonials/published?per_page=3");
-
-        if (!res.ok) {
-          throw new Error(`HTTP error ${res.status}`);
-        }
-
-        const result = await res.json();
-
-        if (result?.success) {
-          const data =
-            result.data?.data && Array.isArray(result.data.data)
-              ? result.data.data
-              : Array.isArray(result.data)
-                ? result.data
-                : [];
-
-          setTestimonials(data);
+        if (data.success && data.data) {
+          const partnersData = data.data.data || data.data;
+          setBusinessPartners(partnersData);
         }
       } catch (err) {
-        console.error("[Home] Failed to fetch testimonials:", err);
+        console.error('[Home] Error fetching business partners:', err);
       } finally {
-        setTestimonialLoading(false);
+        setPartnersLoading(false);
       }
     };
 
-    fetchTestimonials();
+    fetchBusinessPartners();
   }, []);
 
   useEffect(() => {
@@ -223,94 +328,65 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-linear-to-br from-red-50 to-orange-50">
+    <main className="min-h-screen w-full bg-linear-to-br from-red-50 to-orange-50">
       <Header />
 
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] lg:min-h-[75vh] flex items-center overflow-hidden bg-linear-to-br from-red-50 to-orange-50 py-20 z-20">
-        {/* Overlay */}
+      <section className="relative w-full min-h-[70vh] lg:min-h-[75vh] flex items-center bg-linear-to-br from-red-50 to-orange-50 py-12 md:py-20 z-20 overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-yellow-800/90 via-[#800000]/90 to-[#800000]/90" />
 
-        {/* Decorative Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white w-full">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="w-full"
           >
-
-            <div className="hidden lg:grid lg:grid-cols-2 gap-10 items-center">
-              {/* VIDEO COLUMN */}
-              <div className="relative overflow-hidden rounded-xl border border-white/10 bg-black/40">
-                <video
-                  className="w-full h-64 md:h-80 lg:h-[360px] object-cover"
-                  src="/videos/perpetual-campus.mp4"
-                  poster="/images/video-poster-1.jpg"
-                  muted
-                  autoPlay
-                  loop
-                  playsInline
-                />
-              </div>
-
-              <div className="relative overflow-hidden rounded-xl border border-white/10 bg-black/40">
-                <video
-                  className="w-full h-64 md:h-80 lg:h-[360px] object-cover"
-                  src="/videos/perpetual-campus.mp4"
-                  poster="/images/video-poster-1.jpg"
-                  muted
-                  autoPlay
-                  loop
-                  playsInline
-                />
-              </div>
-            </div>
-
-            <div className="lg:hidden m-10">
-              <Carousel className="w-full h-full lg:hidden">
-                <CarouselContent>
-                  <CarouselItem>
-                    <Card>
-                      <CardContent className="relative overflow-hidden rounded-xl border border-white/10">
-                        <video
-                          className="w-full h-64 md:h-80 lg:h-[360px] object-cover"
-                          src="/videos/perpetual-campus.mp4"
-                          poster="/images/video-poster-1.jpg"
-                          muted
-                          autoPlay
-                          loop
-                          playsInline
-                        />
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>
-                  <CarouselItem>
-                    <Card>
-                      <CardContent className="relative overflow-hidden rounded-xl border border-white/10">
-                        <video
-                          className="w-full h-64 md:h-80 lg:h-[360px] object-cover"
-                          src="/videos/perpetual-campus.mp4"
-                          poster="/images/video-poster-1.jpg"
-                          muted
-                          autoPlay
-                          loop
-                          playsInline
-                        />
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>
+            <div className="w-full px-0">
+              <Carousel 
+                opts={{ align: "start", loop: true }} 
+                className="w-full"
+                setApi={(api) => {
+                  api?.on("select", () => {
+                    setCarouselIndex(api.selectedScrollSnap());
+                  });
+                }}
+              >
+                <CarouselContent className="-ml-2 sm:-ml-3 md:-ml-4">
+                  {CAROUSEL_VIDEOS.map((video) => (
+                    <CarouselItem key={`${video.id}-${carouselIndex}`} className="basis-full sm:basis-full md:basis-1/2 lg:basis-1/2 pl-2 sm:pl-3 md:pl-4">
+                      <Card className="border-0 py-0 gap-0">
+                        <CardContent className="relative overflow-hidden rounded-lg sm:rounded-xl border border-white/10 p-0">
+                          <video
+                            key={`video-${video.id}-${carouselIndex}`}
+                            className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover"
+                            src={video.src}
+                            poster="/video-poster3.jpg"
+                            controls
+                            controlsList="nodownload"
+                            playsInline
+                            preload="metadata"
+                            crossOrigin="anonymous"
+                          />
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 sm:p-4">
+                            <p className="text-white text-xs sm:text-sm font-medium truncate">{video.title}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
+                <CarouselPrevious className="hidden sm:flex" />
+                <CarouselNext className="hidden sm:flex" />
               </Carousel>
             </div>
 
-            <div className="flex flex-col justify-center items-center text-center lg:text-left lg:py-10">
+            <div className="flex flex-col justify-center items-center text-center lg:text-left py-10">
               <h1 className="text-4xl lg:text-6xl font-light mb-6">
-                Welcome to <span className="font-bold">Perpetual College</span>
+                Welcome to <span className="font-bold">Perpetual Help</span>
               </h1>
 
               <p className="leading-relaxed text-center text-red-300 mb-8">
@@ -330,7 +406,6 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Wave Decoration */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg
             className="w-full h-16 md:h-24"
@@ -348,11 +423,8 @@ export default function Home() {
       </section>
 
       {/* Announcement Section */}
-      <section className="pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden z-10">
-        {/* Background */}
-        <div className="absolute inset-0 bg-linear-to-br from-red-50 to-orange-50 to-green-50 z-0" />
-
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section className="w-full py-20 px-4 sm:px-6 lg:px-8 relative z-10 bg-linear-to-br from-red-50 via-orange-50 to-green-50">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -371,47 +443,58 @@ export default function Home() {
           </motion.div>
 
           {announcementLoading ? (
-            [...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="p-8 rounded-3xl bg-linear-to-br from-red-200 via-orange-200 to-green-200 animate-pulse h-64"
-              />
-            ))
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[...Array(8)].map((_, i) => (
+                <div
+                  key={i}
+                  className="p-8 rounded-3xl bg-linear-to-br from-red-200 via-orange-200 to-green-200 animate-pulse h-64"
+                />
+              ))}
+            </div>
           ) : announcements.length > 0 ? (
-            announcements.map((item, i) => {
-              const Icon =
-                item.category === "event"
-                  ? Calendar
-                  : item.category === "alert"
-                    ? Zap
-                    : FileText;
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                {announcements.map((item, i) => {
+                  const Icon =
+                    item.category === "event"
+                      ? Calendar
+                      : item.category === "alert"
+                        ? Zap
+                        : FileText;
 
-              return (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08, duration: 0.5 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -12, scale: 1.02 }}
-                  className="p-8 rounded-3xl bg-white border-2 border-gray-100 hover:border-red-300 hover:shadow-2xl transition-all group"
-                >
-                  <div className="w-16 h-16 bg-linear-to-br from-yellow-400 via-red-600 to-red-900 rounded-full flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform">
-                    <Icon className="w-8 h-8 text-white" />
-                  </div>
+                  return (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.08, duration: 0.5 }}
+                      viewport={{ once: true }}
+                      whileHover={{ y: -12, scale: 1.02 }}
+                      onClick={() => setSelectedAnnouncement(item)}
+                      className="p-6 rounded-3xl bg-white border-2 border-gray-100 hover:border-red-300 hover:shadow-2xl transition-all group cursor-pointer"
+                    >
+                      <div className="w-16 h-16 bg-linear-to-br from-yellow-400 via-red-600 to-red-900 rounded-full flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                        <Icon className="w-8 h-8 text-white" />
+                      </div>
 
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:bg-linear-to-r group-hover:from-red-600 group-hover:via-orange-600 group-hover:to-green-600 group-hover:bg-clip-text group-hover:text-transparent transition-all">
-                    {item.title}
-                  </h3>
+                      <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:bg-linear-to-r group-hover:from-red-600 group-hover:via-orange-600 group-hover:to-green-600 group-hover:bg-clip-text group-hover:text-transparent transition-all line-clamp-2">
+                        {item.title}
+                      </h3>
 
-                  <p className="text-gray-600 leading-relaxed line-clamp-3">
-                    {item.content}
-                  </p>
-                </motion.div>
-              );
-            })
+                      <p className="text-gray-600 leading-relaxed line-clamp-2 text-sm">
+                        {item.content}
+                      </p>
+
+                      <p className="text-xs text-gray-500 mt-3">
+                        {new Date(item.created_at).toLocaleDateString()}
+                      </p>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </>
           ) : (
-            <div className="col-span-full text-center py-12 text-gray-600">
+            <div className="text-center py-12 text-gray-600">
               No announcements available.
             </div>
           )}
@@ -422,7 +505,7 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <Link href="/announcement">
+            <Link href="/announcements">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -436,7 +519,7 @@ export default function Home() {
       </section>
 
       {/* News Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section className="w-full py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -480,8 +563,7 @@ export default function Home() {
                   <div className="relative h-56 overflow-hidden bg-linear-to-br from-red-100 via-orange-100 to-green-100">
                     {item.image ? (
                       <img
-                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL || ""}/${item.image
-                          }`}
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL || "http://localhost:8000"}/${item.image}`}
                         alt={item.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
@@ -546,7 +628,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Modal */}
+      {/* News Modal */}
       <AnimatePresence>
         {selectedArticle && (
           <motion.div
@@ -567,8 +649,7 @@ export default function Home() {
               <div className="relative h-72 md:h-96 overflow-hidden">
                 {selectedArticle.image ? (
                   <img
-                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL || ""}/${selectedArticle.image
-                      }`}
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL || "http://localhost:8000"}/${selectedArticle.image}`}
                     alt={selectedArticle.title}
                     className="w-full h-full object-cover"
                   />
@@ -651,7 +732,7 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Testimonials Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 border-t border-accent-300 relative z-10">
+      <section className="w-full py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-br from-orange-50 to-red-50 border-t border-gray-200 relative z-10">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -659,47 +740,70 @@ export default function Home() {
             viewport={{ once: true }}
             className="mb-16 text-center"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
               <span className="uppercase bg-linear-to-r from-yellow-600 via-red-600 to-red-900 bg-clip-text text-transparent">
-                What Other Student Say
+               What Our Members Say
               </span>
             </h2>
-            <div className="w-32 h-1.5 bg-linear-to-r from-yellow-600 via-red-600 to-red-900 rounded-full mx-auto mb-4" />
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto font-medium">
+            <div className="w-24 sm:w-32 h-1.5 bg-linear-to-r from-yellow-600 via-red-600 to-red-900 rounded-full mx-auto mb-4" />
+            <p className="text-base sm:text-lg text-gray-700 max-w-2xl mx-auto font-medium">
               View what others said
             </p>
-            <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6">
-              {testimonialLoading ? (
-                [...Array(3)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="bg-gray-100 p-8 rounded-3xl shadow animate-pulse h-56"
-                  />
-                ))
-              ) : testimonials.length > 0 ? (
-                testimonials.map((t, i) => (
+
+            <div className="relative w-full mt-12 overflow-hidden cursor-grab active:cursor-grabbing">
+              <motion.div
+                className="flex gap-4 sm:gap-6 md:gap-8"
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: 50,
+                  ease: "linear",
+                }}
+                drag="x"
+                dragElastic={0.2}
+                dragMomentum={true}
+              >
+                {[...staticTestimonials, ...staticTestimonials].map((t, i) => (
                   <motion.div
-                    key={t.id}
+                    key={`${t.id}-${i}`}
                     whileHover={{ y: -6 }}
-                    className="bg-gray-50 p-8 rounded-3xl shadow border"
+                    className="flex-shrink-0 w-72 sm:w-80 md:w-96 bg-gradient-to-br from-gray-50 to-gray-100 p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-lg border border-gray-200 hover:border-red-300 hover:shadow-xl transition-all flex flex-col"
                   >
-                    <p className="italic text-gray-700 mb-6">“{t.message}”</p>
-                    <h4 className="font-bold">{t.name}</h4>
-                    <p className="text-sm text-gray-500">{t.role}</p>
+                    <div className="flex gap-1 mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <span key={i} className="text-yellow-400 text-sm sm:text-base">
+                          ★
+                        </span>
+                      ))}
+                    </div>
+
+                    <p className="italic text-gray-700 mb-6 text-xs sm:text-sm leading-relaxed flex-1">
+                      "{t.message}"
+                    </p>
+
+                    <div className="flex items-center gap-3 mt-4">
+                      <div className="w-12 sm:w-14 h-12 sm:h-14 rounded-full bg-linear-to-br from-yellow-400 via-red-600 to-red-900 flex-shrink-0 flex items-center justify-center text-white font-bold text-base sm:text-lg">
+                        {t.name.charAt(0)}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-gray-900 text-xs sm:text-sm leading-tight truncate">{t.name}</h4>
+                        <p className="text-xs text-gray-600 mt-1 line-clamp-2">{t.role}</p>
+                      </div>
+                    </div>
                   </motion.div>
-                ))
-              ) : (
-                <div className="col-span-full text-center py-12 text-gray-600">
-                  No testimonials available.
-                </div>
-              )}
+                ))}
+              </motion.div>
+
+              <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-12 md:w-16 bg-linear-to-r from-orange-50 to-transparent pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-12 md:w-16 bg-linear-to-l from-orange-50 to-transparent pointer-events-none" />
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* Business Partners Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-br from-red-50 to-orange-50 overflow-hidden">
+      <section className="w-full py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-br from-red-50 to-orange-50">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -718,48 +822,156 @@ export default function Home() {
             </p>
           </motion.div>
 
-          {/* Continuous Slider */}
-          <div className="relative overflow-hidden">
-            <motion.div
-              className="flex gap-10"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 30,
-                ease: "linear",
-              }}
-            >
-              {[...BUSINESS_PARTNERS, ...BUSINESS_PARTNERS].map((partner, i) => (
-                <div
-                  key={i}
-                  className="flex-shrink-0 w-64 h-32 bg-white rounded-2xl shadow-lg border border-gray-100 flex items-center justify-center hover:shadow-2xl transition-all"
-                >
-                  {partner.logo ? (
-                    <img
-                      src={partner.logo}
-                      alt={partner.name}
-                      className="max-h-16 object-contain"
-                    />
-                  ) : (
-                    <span className="font-bold text-gray-700 text-center px-4">
-                      {partner.name}
-                    </span>
-                  )}
-                </div>
-              ))}
-            </motion.div>
+          {partnersLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+            </div>
+          ) : businessPartners.length > 0 ? (
+            <div className="relative w-full overflow-hidden">
+              <Marquee speed={20}>
+                {[...businessPartners, ...businessPartners].map((partner, i) => (
+                  <PartnerCard key={`partner-${i}`} partner={partner} />
+                ))}
+              </Marquee>
 
-            {/* Fade edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-24 bg-linear-to-r from-red-50 to-transparent pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-24 bg-linear-to-l from-red-50 to-transparent pointer-events-none" />
-          </div>
+              <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-16 md:w-24 bg-linear-to-r from-red-50 to-transparent pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-16 md:w-24 bg-linear-to-l from-red-50 to-transparent pointer-events-none" />
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-500">No business partners to display at this time.</p>
+            </div>
+          )}
         </div>
       </section>
 
       <CTASection />
       <Footer />
+
+      {/* Announcement Detail Modal */}
+      <AnimatePresence>
+        {selectedAnnouncement && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedAnnouncement(null)}
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
+            >
+              <button
+                onClick={() => setSelectedAnnouncement(null)}
+                className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full transition-all z-10"
+              >
+                <X className="w-6 h-6 text-gray-600" />
+              </button>
+
+              <div className="p-8 md:p-12">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 bg-linear-to-br from-yellow-400 via-red-600 to-red-900 rounded-full flex items-center justify-center shadow-lg">
+                    {selectedAnnouncement.category === "event" ? (
+                      <Calendar className="w-8 h-8 text-white" />
+                    ) : selectedAnnouncement.category === "alert" ? (
+                      <Zap className="w-8 h-8 text-white" />
+                    ) : (
+                      <FileText className="w-8 h-8 text-white" />
+                    )}
+                  </div>
+                  <div>
+                    <span className="inline-block px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-semibold capitalize">
+                      {selectedAnnouncement.category}
+                    </span>
+                  </div>
+                </div>
+
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                  {selectedAnnouncement.title}
+                </h2>
+
+                <p className="text-gray-500 text-sm mb-6">
+                  {new Date(selectedAnnouncement.created_at).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </p>
+
+                <div className="prose prose-lg max-w-none">
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                    {selectedAnnouncement.content}
+                  </p>
+                </div>
+
+                <div className="mt-8 flex gap-4">
+                  <button
+                    onClick={() => setSelectedAnnouncement(null)}
+                    className="flex-1 px-6 py-3 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold transition-all"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
 
+function PartnerCard({ partner }: { partner: BusinessPartner }) {
+  const [imageError, setImageError] = useState(false);
+  const hasValidImage = !!(partner.photo);
+
+  const CardContent = (
+    <div className="flex-shrink-0 w-64 mx-4 sm:w-72 md:w-80 bg-white rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all flex flex-col">
+      <div className="relative w-full h-40 sm:h-48 md:h-56 flex items-center justify-center flex-shrink-0">
+        {hasValidImage && !imageError ? (
+          <img
+            src={partner.photo!}
+            alt={partner.business_name}
+            className="object-cover w-full h-full"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-red-100 rounded-full flex items-center justify-center">
+            <span className="text-2xl font-bold text-orange-600">
+              {partner.business_name.charAt(0).toUpperCase()}
+            </span>
+          </div>
+        )}
+      </div>
+      <div className="p-4 sm:p-5">
+        <p className="font-bold text-gray-900 text-sm sm:text-base text-center line-clamp-2">
+          {partner.business_name}
+        </p>
+        {partner.category && (
+          <p className="text-xs text-gray-500 text-center mt-1 line-clamp-1">
+            {partner.category}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+
+  if (partner.website_link) {
+    return (
+      <a
+        href={partner.website_link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block"
+      >
+        {CardContent}
+      </a>
+    );
+  }
+
+  return CardContent;
+}

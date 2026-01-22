@@ -1,4 +1,3 @@
-// app/api/users/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 

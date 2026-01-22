@@ -1,35 +1,31 @@
 "use client";
 
-import React from "react";
-import { useRouter, usePathname } from "next/navigation";
+import React from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import {
-  Ambulance,
-  LayoutDashboard,
-  Newspaper,
-  Mail,
-  User,
-  LogOut,
-  Shield,
-  FileText,
-  Building,
-  ScrollText,
-  Heart,
-  UserCheck,
-  ShieldCheck,
   Home,
-  HandHelping,
+  Grid3x3,
+  Newspaper,
+  AlertTriangle,
+  User,
+  FileText,
+  GraduationCap,
+  Rocket,
+  Building2,
   MapPin,
+  Bell,
+  LogOut,
+  File,
+  Shield,
   ChevronDown,
-  NotebookText,
-  Megaphone,
   ChevronUp,
   ChevronLeft,
   ChevronRight,
-} from "lucide-react";
-import { authClient } from "@/lib/auth";
-import { useToast } from "@/components/ui/use-toast";
+} from 'lucide-react';
+import { authClient } from '@/lib/auth';
+import { useToast } from '@/components/ui/use-toast';
 
-export default function AdminSidebar({
+export default function MemberSidebar({
   isCollapsed,
   setIsCollapsed,
 }: {
@@ -41,14 +37,10 @@ export default function AdminSidebar({
   const { toast } = useToast();
   const [isLoggingOut, setIsLoggingOut] = React.useState(false);
 
-
   // Dropdown state
   const [expandedSections, setExpandedSections] = React.useState({
-    government: false,
-    civilRegistry: false,
-    health: false,
-    publicSafety: false,
-    aboutUs: false,
+    quickAccess: false,
+    certificates: false,
   });
 
   const toggleSection = (section: keyof typeof expandedSections) => {
@@ -63,11 +55,8 @@ export default function AdminSidebar({
 
     if (!isCollapsed) {
       setExpandedSections({
-        government: false,
-        civilRegistry: false,
-        health: false,
-        publicSafety: false,
-        aboutUs: false,
+        quickAccess: false,
+        certificates: false,
       });
     }
   };
@@ -88,37 +77,55 @@ export default function AdminSidebar({
         duration: 2000,
       });
 
-      setTimeout(() => router.push("/login"), 500);
+      setTimeout(() => {
+        router.push('/login');
+      }, 500);
+
     } catch (error) {
-      console.error("Logout error:", error);
+      console.error('Logout error:', error);
 
       toast({
         variant: "destructive",
         title: "Logout Failed",
         description: "An error occurred. Please try again.",
       });
-
       setIsLoggingOut(false);
     }
   };
 
   const isActive = (path: string) => {
-    if (path === "/dashboard/admin") {
+    if (path === "/dashboard/member") {
       return pathname === path;
     }
     return pathname === path || pathname.startsWith(path + "/");
   };
-
 
   const isSectionActive = (items: { path: string }[]) =>
     items.some(item => isActive(item.path));
 
   const navigationItems = [
     { icon: Home, label: 'Home', path: '/dashboard/member' },
-    { icon: Megaphone, label: 'Announcement', path: '/dashboard/member/announcement' },
+    { icon: Grid3x3, label: 'Partners', path: '/dashboard/member/partners' },
     { icon: Newspaper, label: 'News', path: '/dashboard/member/news' },
-    { icon: User, label: 'Profile', path: '/dashboard/member/account' },
+    { icon: User, label: 'Announcemnets', path: '/dashboard/member/announcement' },
+    { icon: User, label: 'Certificate of Legitemacy', path: '/dashboard/member/legitimacy' },
   ];
+
+  // const quickAccessItems = [
+  //   { icon: FileText, label: 'Member Guide', path: '/dashboard/member/member-guide' },
+  //   { icon: GraduationCap, label: 'Students', path: '/dashboard/member/students' },
+  //   { icon: Rocket, label: 'Startup', path: '/dashboard/member/startup' },
+  //   { icon: MapPin, label: 'City Map', path: '/dashboard/member/city-map' },
+  //   { icon: Bell, label: 'Alerts', path: '/dashboard/member/alerts' },
+  // ];
+
+  const certificateItems = [
+    { icon: File, label: 'Certificates', path: '/dashboard/member/services/certificates' },
+    { icon: File, label: 'Certificate of Legitemacy', path: '/dashboard/member/services/certificate-of-legitemacy' },
+  ];
+
+  // const isQuickAccessActive = expandedSections.quickAccess || isSectionActive(quickAccessItems);
+  const isCertificatesActive = expandedSections.certificates || isSectionActive(certificateItems);
 
   return (
     <aside className={`hidden lg:block fixed top-0 left-0 h-full overflow-visible bg-gradient-to-b from-yellow-600/90 via-red-800/90 to-red-900/90 text-white shadow-2xl z-50 transition-all duration-300 ${isCollapsed ? "w-[70px]" : "w-[300px]"}`}>
@@ -136,12 +143,12 @@ export default function AdminSidebar({
         {/* Logo Section */}
         <div className={`flex items-center gap-2 mb-4 py-3 ${isCollapsed ? 'justify-center' : ''}`}>
           <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0">
-            <Shield className="text-slate-800" size={20} />
+            <Shield className="text-emerald-600" size={20} />
           </div>
           {!isCollapsed && (
             <div>
-              <h1 className="font-bold text-base">Perpetual College</h1>
-              <p className="text-xs text-slate-200">Member's Dashboard</p>
+              <h1 className="font-bold text-base">Perpetual Village City</h1>
+              <p className="text-xs text-emerald-100">Member Portal</p>
             </div>
           )}
         </div>
@@ -156,21 +163,90 @@ export default function AdminSidebar({
                 {/* MAIN BUTTON */}
                 <button
                   onClick={() => router.push(item.path)}
-                  className={`w-full flex items-center gap-2 px-3 py-3 rounded-lg text-left transition-colors text-sm ${isCollapsed ? 'justify-center' : ''} ${active ? "bg-white/20 font-semibold shadow-lg" : "hover:bg-white/10"}`}>
-                  <item.icon size={20} />
+                  className={`w-full flex items-center gap-2 px-3 py-3 rounded-lg text-left transition-colors text-sm ${isCollapsed ? 'justify-center' : ''} ${active ? "bg-white/20 font-semibold shadow-lg" : "hover:bg-white/10"}`}
+                >
+                  <item.icon size={16} />
                   {!isCollapsed && <span className="text-sm">{item.label}</span>}
                 </button>
 
                 {/* COLLAPSED MODE FLYOUT */}
                 {isCollapsed && (
-                  <div
-                    className=" absolute left-full w-44 -translate-y-1/2 -m-5 px-3 py-2 -ml-2 bg-yellow-600 text-white text-xs font-semibold rounded-md shadow-xl opacity-0 translate-x-2 invisible pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 group-hover:visible group-hover:pointer-events-auto transition-all duration-200 ease-out z-[9999]">
+                  <div className="absolute left-full w-44 -translate-y-1/2 -m-5 px-3 py-2 -ml-2 bg-emerald-600 text-white text-xs font-semibold rounded-md shadow-xl opacity-0 translate-x-2 invisible pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 group-hover:visible group-hover:pointer-events-auto transition-all duration-200 ease-out z-[9999]">
                     {item.label}
                   </div>
                 )}
               </div>
             );
           })}
+
+         
+
+          {/* Certificates Section */}
+          <div className="group">
+            {/* MAIN BUTTON */}
+            <button
+              onClick={() => !isCollapsed && toggleSection("certificates")}
+              className={`w-full flex items-center justify-between gap-3 px-3 py-3 rounded-lg text-left transition-colors text-sm hover:bg-white/10 ${isCertificatesActive ? "bg-white/20 font-semibold shadow-lg" : "hover:bg-white/10"} ${isCollapsed ? "justify-center" : ""}`}
+            >
+              <div className="flex items-center gap-2 justify-center">
+                <FileText size={16} />
+                {!isCollapsed && (
+                  <span className={`font-semibold text-white/90 text-xs tracking-wide ${isCertificatesActive ? "text-white font-semibold" : "text-white/90"}`}>
+                    Certificates
+                  </span>
+                )}
+              </div>
+
+              {!isCollapsed && (
+                expandedSections.certificates ? (
+                  <ChevronDown size={16} />
+                ) : (
+                  <ChevronUp size={16} />
+                )
+              )}
+            </button>
+
+            {/* NORMAL EXPANDED MODE */}
+            {!isCollapsed && expandedSections.certificates && (
+              <div className="space-y-1 pl-3 m-1">
+                {certificateItems.map((item, index) => {
+                  const active = isActive(item.path);
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => router.push(item.path)}
+                      className={`w-full flex items-center gap-2 p-3 py-3 rounded-lg text-left transition-colors text-xs ${active ? "bg-white/20 font-semibold shadow-lg" : "hover:bg-white/10"}`}
+                    >
+                      <item.icon size={16} />
+                      <span className="text-xs">{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* COLLAPSED MODE FLYOUT */}
+            {isCollapsed && (
+              <div className="absolute left-full -translate-y-1/2 -ml-5 py-2 w-56 bg-emerald-600 rounded-lg shadow-xl opacity-0 translate-x-2 invisible pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 group-hover:visible group-hover:pointer-events-auto group-hover:delay-150 transition-all duration-200 ease-out z-[9999]">
+                <span className="w-full flex items-center px-4 py-2 font-semibold text-white/90 text-xs tracking-wide border-b border-white/20">
+                  Certificates
+                </span>
+                {certificateItems.map((item, index) => {
+                  const active = isActive(item.path);
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => router.push(item.path)}
+                      className={`w-full flex items-center gap-3 px-4 py-2 text-left text-sm transition-colors ${active ? "bg-white/20 font-semibold" : "hover:bg-white/10"}`}
+                    >
+                      <item.icon size={16} />
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </nav>
 
         {/* Logout Section */}
@@ -178,8 +254,7 @@ export default function AdminSidebar({
           <button
             onClick={handleLogout}
             disabled={isLoggingOut}
-            className={`w-full flex items-center gap-2 px-3 py-3 rounded-lg hover:bg-red-500/20 transition-colors text-left group disabled:opacity-50 disabled:cursor-not-allowed text-sm ${isCollapsed ? 'justify-center' : ''
-              }`}
+            className={`w-full flex items-center gap-2 px-3 py-3 rounded-lg hover:bg-red-500/20 transition-colors text-left group disabled:opacity-50 disabled:cursor-not-allowed text-sm ${isCollapsed ? 'justify-center' : ''}`}
           >
             {isLoggingOut ? (
               <>

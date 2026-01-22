@@ -1,0 +1,3 @@
+{
+  "/api/trigger-announcement-email/route": "app/api/trigger-announcement-email/route.js"
+}

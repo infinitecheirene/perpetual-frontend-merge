@@ -51,7 +51,7 @@ export default function AnnouncementsSection() {
 
       console.log('Fetching announcements...')
 
-      const response = await fetch(`/api/announcements?per_page=6`)
+      const response = await fetch(`/api/announcements`)
 
       console.log('Response status:', response.status)
 

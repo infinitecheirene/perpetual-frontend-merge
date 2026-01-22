@@ -5,6 +5,7 @@ import { ChevronLeft, Calendar, Eye, Share2, Bookmark, Newspaper } from "lucide-
 import Image from "next/image"
 import Link from "next/link"
 import MemberLayout from "@/components/memberLayout"
+import { ArticleModal } from "@/components/member/article-modal"
 
 interface NewsArticle {
   id: string
@@ -37,6 +38,8 @@ export default function NewsPage() {
   const [news, setNews] = useState<NewsArticle[]>([])
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [loading, setLoading] = useState(true)
+  const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const transformArticle = (article: ApiNewsArticle, category: string): NewsArticle => {
     const apiUrl = process.env.NEXT_PUBLIC_IMAGE_URL || "http://localhost:8000"
@@ -167,9 +170,12 @@ export default function NewsPage() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {filteredNews.map((article) => (
-                  <Link
+                  <div
                     key={article.id}
-                    href={`/news/${article.id}`}
+                    onClick={() => {
+                      setSelectedArticle(article)
+                      setModalOpen(true)
+                    }}
                     className="group block bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-lg hover:border-gray-300 transition-all duration-300"
                   >
                     {article.image && (
@@ -228,10 +234,12 @@ export default function NewsPage() {
                         </div>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             )}
+            {/* Article Modal */}
+            <ArticleModal article={selectedArticle} isOpen={modalOpen} onClose={() => setModalOpen(false)} />
           </div>
         </main>
       </div>

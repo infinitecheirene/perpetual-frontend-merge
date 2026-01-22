@@ -3,6 +3,7 @@
 import CTASection from "@/components/cta-section"
 import PageLayout from "@/components/page-layout"
 import ServicesSection from "@/components/partners-section"
+import VerifyUserForm from "@/components/verification-form"
 
 export default function ServicesPage() {
   return (
@@ -13,6 +14,7 @@ export default function ServicesPage() {
       image="/government-services-city-utilities.jpg"
     >
       <ServicesSection />
+      <VerifyUserForm/>
       <CTASection />
     </PageLayout>
   )

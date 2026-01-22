@@ -15,6 +15,7 @@ export async function middleware(request: NextRequest) {
     '/register', 
     '/announcements',
     '/news',
+    '/partners',
     '/services',
     '/about',
     '/contact',

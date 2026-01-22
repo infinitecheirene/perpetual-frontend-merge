@@ -4,90 +4,111 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
 
 export async function GET(request: NextRequest) {
   try {
-    // Get query parameters
     const searchParams = request.nextUrl.searchParams
-    const perPage = searchParams.get('per_page') || '10'
-    const page = searchParams.get('page') || '1'
+    const queryString = searchParams.toString()
     
-    console.log("[Published News] Fetching published news")
-    console.log("[Published News] Per page:", perPage)
-    console.log("[Published News] Page:", page)
+    console.log("[v0] News API GET - Fetching from:", `${API_URL}/news/published${queryString ? `?${queryString}` : ''}`)
 
-    // Build query string
-    const queryParams = new URLSearchParams({
-      per_page: perPage,
-      page: page,
-    })
-
-    const apiUrl = `${API_URL}/api/news/published?${queryParams.toString()}`
-    console.log("[Published News] Calling Laravel API:", apiUrl)
-
-    const response = await fetch(apiUrl, {
+    const response = await fetch(`${API_URL}/news/published${queryString ? `?${queryString}` : ''}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
       },
-      cache: 'no-store', // Disable caching for fresh data
     })
 
-    console.log("[Published News] Response status:", response.status)
-
     const responseText = await response.text()
-    console.log("[Published News] Response text (first 500 chars):", responseText.substring(0, 500))
-
-    if (!responseText) {
-      console.error("[Published News] Empty response from server")
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Empty response from Laravel server",
-          data: []
-        },
-        { status: 500 }
-      )
-    }
-
-    let data
-    try {
-      data = JSON.parse(responseText)
-    } catch (parseError) {
-      console.error("[Published News] Failed to parse JSON:", parseError)
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Invalid JSON response from Laravel",
-          responseText: responseText.substring(0, 1000),
-          data: []
-        },
-        { status: 500 }
-      )
-    }
+    console.log("[v0] News API GET - Response status:", response.status)
 
     if (!response.ok) {
-      console.error("[Published News] Error response:", data)
-      return NextResponse.json(
-        {
-          success: false,
-          error: data.message || "Failed to fetch published news",
-          details: data.errors || data,
-          data: []
-        },
-        { status: response.status }
-      )
+      try {
+        const errorData = JSON.parse(responseText)
+        return NextResponse.json(
+          {
+            error: errorData.message || "Failed to fetch news",
+            details: errorData.errors || errorData,
+          },
+          { status: response.status },
+        )
+      } catch {
+        return NextResponse.json({ error: "Failed to fetch news from server" }, { status: response.status })
+      }
     }
 
-    console.log("[Published News] Success! Returning data")
+    const data = JSON.parse(responseText)
     return NextResponse.json(data)
   } catch (error) {
-    console.error("[Published News] Catch block error:", error)
+    console.error("[v0] News API GET - Error:", error)
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Unknown error" }, { status: 500 })
+  }
+}
+export async function POST(request: NextRequest) {
+  try {
+    const formData = await request.formData()
+
+    console.log("[v0] News API - Sending request to:", `${API_URL}/news`)
+    console.log("[v0] News API - FormData entries:")
+    for (const [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        console.log(`[v0]   ${key}: File(${value.name}, ${value.size} bytes)`)
+      } else {
+        console.log(`[v0]   ${key}: ${value}`)
+      }
+    }
+
+    const response = await fetch(`${API_URL}/news`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    })
+
+    const responseText = await response.text()
+    console.log("[v0] News API - Response status:", response.status)
+    console.log("[v0] News API - Response headers:", Object.fromEntries(response.headers.entries()))
+    console.log("[v0] News API - Response body (first 500 chars):", responseText.substring(0, 500))
+
+    if (!response.ok) {
+      try {
+        const errorData = JSON.parse(responseText)
+        console.log("[v0] News API - Parsed error data:", errorData)
+        return NextResponse.json(
+          {
+            error: errorData.message || "Failed to create news",
+            details: errorData.errors || errorData,
+            status: response.status,
+          },
+          { status: response.status },
+        )
+      } catch {
+        console.log("[v0] News API - Could not parse as JSON. Full response:")
+        console.log(responseText)
+
+        return NextResponse.json(
+          {
+            error: "Laravel returned an error (see server logs for details)",
+            status: response.status,
+            isHtmlError: responseText.includes("<html") || responseText.includes("<!DOCTYPE"),
+          },
+          { status: response.status },
+        )
+      }
+    }
+
+    const data = JSON.parse(responseText)
+    return NextResponse.json(data)
+  } catch (error) {
+    console.error("[v0] News API - Catch block error:", error)
+    const errorMessage = error instanceof Error ? error.message : "Unknown error"
+    const errorStack = error instanceof Error ? error.stack : ""
+    console.error("[v0] News API - Error stack:", errorStack)
+
     return NextResponse.json(
       {
-        success: false,
-        error: error instanceof Error ? error.message : "Unknown error",
-        data: []
+        error: errorMessage,
+        type: error instanceof Error ? error.constructor.name : "Unknown",
       },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }

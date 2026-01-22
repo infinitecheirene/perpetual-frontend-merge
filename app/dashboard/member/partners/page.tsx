@@ -1,13 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search, Filter, Eye, Plus, ChevronRight, ChevronLeft, Pencil, Trash } from "lucide-react"
+import { Search, Filter, Eye, Plus, ChevronRight, ChevronLeft } from "lucide-react"
 import MemberLayout from "@/components/memberLayout"
 import { useAuth } from "@/hooks/useAuth"
 import { useToast } from "@/components/ui/use-toast"
-import MemberBusinessModal from "@/components/member/partners/add-edit-modal"
+import MemberBusinessModal from "@/components/member/partners/add-modal"
 import MemberViewBusinessModal from "@/components/member/partners/view-modal"
-import { MemberDeleteBusinessModal } from "@/components/member/partners/delete-modal"
 
 interface BusinessPartner {
   id: number
@@ -52,8 +51,7 @@ export default function MemberPartnersPage() {
   const [selectedPartner, setSelectedPartner] = useState<BusinessPartner | null>(null)
   const [isViewOpen, setIsViewOpen] = useState(false)
   const [isAddOpen, setIsAddOpen] = useState(false)
-  const [isEditOpen, setIsEditOpen] = useState(false)
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+
   // Fetch partners with optional page parameter
   const fetchPartners = async (page: number = 1) => {
     try {
@@ -65,9 +63,7 @@ export default function MemberPartnersPage() {
       if (statusFilter !== "all") params.append("status", statusFilter)
       if (searchQuery) params.append("search", searchQuery)
 
-      const res = await fetch(`/api/business-partners/user?${params.toString()}`, {
-        credentials: "include",
-      })
+      const res = await fetch(`/api/business-partners?${params.toString()}`, { credentials: "include" })
       const data = await res.json()
 
       if (res.ok && data.success) {
@@ -81,19 +77,11 @@ export default function MemberPartnersPage() {
           to: data.data.to,
         })
       } else {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: data.message || "Failed to fetch partners",
-        })
+        toast({ variant: "destructive", title: "Error", description: data.message || "Failed to fetch partners" })
       }
     } catch (err) {
       console.error(err)
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to fetch partners",
-      })
+      toast({ variant: "destructive", title: "Error", description: "Failed to fetch partners" })
     } finally {
       setLoading(false)
     }
@@ -113,11 +101,7 @@ export default function MemberPartnersPage() {
   }, [authLoading, user, pagination.current_page])
 
   const formatDate = (dateString: string) =>
-    new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    })
+    new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
 
   if (authLoading) {
     return (
@@ -135,47 +119,6 @@ export default function MemberPartnersPage() {
     const newPage = Math.min(Math.max(page, 1), pagination.last_page)
     if (newPage !== pagination.current_page) {
       setPagination((p) => ({ ...p, current_page: newPage }))
-    }
-  }
-
-  const openDeleteModal = (partner: BusinessPartner) => {
-    setSelectedPartner(partner)
-    setIsDeleteOpen(true)
-  }
-
-  const handleDelete = async () => {
-    if (!selectedPartner) return
-
-    try {
-      const res = await fetch(`/api/business-partners/${selectedPartner.id}`, {
-        method: "DELETE",
-        credentials: "include",
-      })
-      const data = await res.json()
-
-      if (res.ok && data.success) {
-        toast({
-          title: "Deleted",
-          description: `Business "${selectedPartner.business_name}" deleted successfully`,
-        })
-        fetchPartners(pagination.current_page)
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: data.message || "Failed to delete business",
-        })
-      }
-    } catch (err) {
-      console.error(err)
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Server error",
-      })
-    } finally {
-      setIsDeleteOpen(false)
-      setSelectedPartner(null)
     }
   }
 
@@ -280,23 +223,6 @@ export default function MemberPartnersPage() {
                         >
                           <Eye />
                         </button>
-
-                        <button
-                          onClick={() => {
-                            setSelectedPartner(partner)
-                            setIsEditOpen(true)
-                          }}
-                          disabled={partner.status !== "pending"}
-                          className={`text-orange-600 p-1.5 rounded hover:bg-orange-50 ${
-                            partner.status !== "pending" ? "opacity-50 cursor-not-allowed hover:bg-transparent" : ""
-                          }`}
-                        >
-                          <Pencil />
-                        </button>
-
-                        <button onClick={() => openDeleteModal(partner)} className="text-red-400 p-1.5 rounded hover:bg-red-50">
-                          <Trash />
-                        </button>
                       </td>
                     </tr>
                   ))}
@@ -371,28 +297,8 @@ export default function MemberPartnersPage() {
           initialData={null}
           onClose={() => setIsAddOpen(false)}
           onSubmitSuccess={() => {
-            fetchPartners(1)
+            fetchPartners(1) 
           }}
-        />
-
-        <MemberBusinessModal
-          isOpen={isEditOpen}
-          mode="edit"
-          initialData={selectedPartner}
-          onClose={() => setIsEditOpen(false)}
-          onSubmitSuccess={() => {
-            fetchPartners(1)
-          }}
-        />
-
-        <MemberDeleteBusinessModal
-          isOpen={isDeleteOpen}
-          itemName={selectedPartner?.business_name || ""}
-          onClose={() => {
-            setIsDeleteOpen(false)
-            setSelectedPartner(null)
-          }}
-          onConfirm={handleDelete}
         />
       </div>
     </MemberLayout>

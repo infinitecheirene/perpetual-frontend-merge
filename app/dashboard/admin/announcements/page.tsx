@@ -268,7 +268,7 @@ export default function AdminAnnouncementsPage() {
   }
 
 
-  // Replace handleSubmit function with this:
+  // Replace your handleSubmit function with this:
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
@@ -290,21 +290,21 @@ export default function AdminAnnouncementsPage() {
 
       const isEdit = modalMode === "edit"
 
-      // Use Next.js API routes
+      // Use POST for both create and update
       const url = isEdit
         ? `/api/announcements/${selectedAnnouncement!.id}`
         : `/api/announcements`
 
+      // Add _method for Laravel to understand it's an update
       if (isEdit) {
         formDataToSend.append("_method", "PATCH")
       }
 
       const res = await fetch(url, {
-        method: "POST",
+        method: "POST", // Always use POST
         body: formDataToSend,
         credentials: "include",
       })
-
 
       let data = null
       const text = await res.text()
@@ -459,14 +459,14 @@ export default function AdminAnnouncementsPage() {
               </div>
               <button
                 onClick={handleCreateNew}
-                className="hidden sm:flex items-center gap-2 px-4 py-2 bg-linear-to-r from-emerald-600 to-orange-500 text-white rounded-lg hover:from-emerald-700 hover:to-orange-600 transition-all"
+                className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-600 to-orange-500 text-white rounded-lg hover:from-emerald-700 hover:to-orange-600 transition-all"
               >
                 <Plus className="w-5 h-5" />
                 New Announcement
-              </button>  
+              </button>
               <button
                 onClick={handleCreateNew}
-                className="sm:hidden p-2 bg-linear-to-r from-emerald-600 to-orange-500 text-white rounded-lg hover:from-emerald-700 hover:to-orange-600 transition-all"
+                className="sm:hidden p-2 bg-gradient-to-r from-emerald-600 to-orange-500 text-white rounded-lg hover:from-emerald-700 hover:to-orange-600 transition-all"
               >
                 <Plus className="w-5 h-5" />
               </button>
@@ -1020,7 +1020,7 @@ export default function AdminAnnouncementsPage() {
                       <button
                         onClick={handleSubmit}
                         disabled={isSubmitting}
-                        className="w-full sm:w-auto px-4 py-3 bg-linear-to-r from-emerald-600 to-orange-500 text-white rounded-lg hover:from-emerald-700 hover:to-orange-600 transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        className="w-full sm:w-auto px-4 py-3 bg-gradient-to-r from-emerald-600 to-orange-500 text-white rounded-lg hover:from-emerald-700 hover:to-orange-600 transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                       >
                         {isSubmitting ? (
                           <>

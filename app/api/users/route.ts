@@ -5,7 +5,7 @@ const LARAVEL_API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:800
 
 export async function GET(request: NextRequest) {
   try {
-    // Get token from HTTP-only cookie
+    // Get token from HTTP-only cookie - cookies() is synchronous in Next.js 15+
     const cookieStore = await cookies()
     const token = cookieStore.get('auth_token')?.value
 

@@ -228,8 +228,11 @@ export default function AdminNewsPage() {
     setIsModalOpen(true)
   }
 
+  const [editingId, setEditingId] = useState<number | null>(null)
+
   const handleEdit = (newsItem: News) => {
     setSelectedNews(newsItem)
+    setEditingId(newsItem.id) // Capture the ID separately
     setFormData({
       title: newsItem.title,
       content: newsItem.content,
@@ -284,9 +287,15 @@ export default function AdminNewsPage() {
         formDataToSend.append("image", image)
       }
 
-      const url = modalMode === "create" ? "/api/admin/news" : `/api/admin/news/${selectedNews?.id}`
+      const isEdit = modalMode === "edit"
+      const url = isEdit
+        ? `/api/admin/news/${selectedNews?.id}`
+        : "/api/admin/news"
+
+      // Always use POST - Laravel will handle _method=PATCH internally
       const method = "POST"
-      console.log("Submitting news:", { url, method })
+
+      console.log("Submitting news:", { url, method, isEdit })
 
       const response = await fetch(url, {
         method,
@@ -434,7 +443,7 @@ export default function AdminNewsPage() {
               </button>
               <button
                 onClick={handleCreateNew}
-                className="sm:hidden p-2 bg-linear-to-r from-emerald-600 to-orange-500 text-white rounded-lg hover:bg-yellow-500/90 transition-all"
+                className="sm:hidden p-2 bg-gradient-to-r from-emerald-600 to-orange-500 text-white rounded-lg hover:bg-yellow-500/90 transition-all"
               >
                 <Plus className="w-5 h-5" />
               </button>
@@ -536,7 +545,7 @@ export default function AdminNewsPage() {
                 <p className="text-gray-500 mb-4">Create your first news article</p>
                 <button
                   onClick={handleCreateNew}
-                  className="px-4 py-2 bg-linear-to-br from-yellow-600/90 via-red-600/90 to-red-800/90 text-white rounded-lg hover:shadow-orange-500/50 transition-colors"
+                  className="px-4 py-2 bg-gradient-to-br from-yellow-600/90 via-red-600/90 to-red-800/90 text-white rounded-lg hover:shadow-orange-500/50 transition-colors"
                 >
                   New Article
                 </button>
@@ -659,8 +668,8 @@ export default function AdminNewsPage() {
                               key={pageNum}
                               onClick={() => handlePageChange(pageNum)}
                               className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${pagination.current_page === pageNum
-                                  ? "bg-orange-600 text-white"
-                                  : "border border-gray-300 hover:bg-gray-50"
+                                ? "bg-orange-600 text-white"
+                                : "border border-gray-300 hover:bg-gray-50"
                                 }`}
                             >
                               {pageNum}
@@ -776,8 +785,8 @@ export default function AdminNewsPage() {
                             type="button"
                             onClick={() => setFormData({ ...formData, category: cat.value })}
                             className={`px-3 py-2 rounded-lg border-2 font-medium text-xs transition-all ${formData.category === cat.value
-                                ? `${cat.color} border-current`
-                                : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                              ? `${cat.color} border-current`
+                              : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
                               }`}
                           >
                             {cat.label}
@@ -908,7 +917,7 @@ export default function AdminNewsPage() {
                       <button
                         onClick={handleSubmit}
                         disabled={isSubmitting}
-                        className="w-full sm:w-auto px-4 py-3 bg-linear-to-r from-emerald-600 to-orange-500 text-white rounded-lg hover:from-emerald-700 hover:to-orange-600 transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        className="w-full sm:w-auto px-4 py-3 bg-gradient-to-r from-emerald-600 to-orange-500 text-white rounded-lg hover:from-emerald-700 hover:to-orange-600 transition-all text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                       >
                         {isSubmitting ? (
                           <>

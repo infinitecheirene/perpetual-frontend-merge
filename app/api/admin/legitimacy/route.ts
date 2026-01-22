@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || "http://localhost:8000/api"
+
 export async function GET(req: NextRequest) {
   try {
-    const token = req.cookies.get("auth_token")?.value
+    const cookieStore = await cookies()
+    const token = cookieStore.get("auth_token")?.value
+    
     if (!token) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 })
     }
@@ -11,20 +15,35 @@ export async function GET(req: NextRequest) {
     const url = new URL(req.url)
     const queryParams = url.searchParams.toString()
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/legitimacy?${queryParams}`, {
+    const res = await fetch(`${API_URL}/admin/legitimacy?${queryParams}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
+        "X-Requested-With": "XMLHttpRequest",
       },
+      credentials: "include",
     })
 
-    const data = await res.json()
-    console.log("Laravel response:", data)
+    const contentType = res.headers.get("content-type")
+    
+    if (!contentType?.includes("application/json")) {
+      const text = await res.text()
+      console.error("Non-JSON response:", text)
+      return NextResponse.json({ success: false, message: "Invalid response from server" }, { status: 500 })
+    }
 
+    const data = await res.json()
     return NextResponse.json(data, { status: res.status })
   } catch (err) {
-    console.error("Server error:", err)
-    return NextResponse.json({ success: false, message: "Server error" }, { status: 500 })
+    console.error("Admin legitimacy GET error:", err)
+    return NextResponse.json(
+      { 
+        success: false, 
+        message: "Server error",
+        error: err instanceof Error ? err.message : "Unknown error"
+      }, 
+      { status: 500 }
+    )
   }
 }
 
@@ -42,9 +61,7 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData()
 
-    console.log("Creating legitimacy request with token:", authToken.value.substring(0, 20) + "...")
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/legitimacy`, {
+    const response = await fetch(`${API_URL}/admin/legitimacy`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -63,7 +80,10 @@ export async function POST(request: NextRequest) {
     } else {
       const text = await response.text()
       console.error("Non-JSON response from Laravel:", text)
-      return NextResponse.json({ success: false, message: "Invalid response from server" }, { status: 500 })
+      return NextResponse.json(
+        { success: false, message: "Invalid response from server" }, 
+        { status: 500 }
+      )
     }
 
     if (!response.ok) {
@@ -72,9 +92,8 @@ export async function POST(request: NextRequest) {
           success: false,
           message: data.message || "Failed to create legitimacy request",
           errors: data.errors,
-          error: data.error,
         },
-        { status: response.status },
+        { status: response.status }
       )
     }
 
@@ -87,7 +106,7 @@ export async function POST(request: NextRequest) {
         message: "Internal server error",
         error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 },
+      { status: 500 }
     )
   }
 }

@@ -91,7 +91,7 @@ export default function BusinessPartnersSection() {
   }
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-red-50 to-orange-50">
+    <section className="py-20 px-6 sm:px-6 lg:px-8 bg-gradient-to-br from-red-50 to-orange-50">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
@@ -115,7 +115,7 @@ export default function BusinessPartnersSection() {
         </div>
 
         {/* Partners Grid - 4 columns on all screen sizes */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {partners.map((partner, i) => {
             const hasValidImage = !!(partner.photo)
 
@@ -177,9 +177,9 @@ function PartnerCard({
   const [imageError, setImageError] = useState(false)
 
   return (
-    <div className="relative w-full h-full bg-white rounded-xl border-2 border-gray-100 shadow-md hover:shadow-xl hover:border-orange-300 transition-all duration-300 p-4 flex flex-col items-center group">
+    <div className="relative w-full h-full bg-white rounded-xl border-2 border-gray-100 shadow-md hover:shadow-xl hover:border-orange-300 transition-all duration-300 flex flex-col items-center group">
       {/* Image Container - Fixed height */}
-      <div className="relative w-full h-56 flex items-center justify-center mb-3 flex-shrink-0">
+      <div className="relative w-72 h-64 flex items-center justify-center mb-3 flex-shrink-0">
         {hasValidImage && !imageError ? (
           <img
             src={partner.photo!}
@@ -189,7 +189,7 @@ function PartnerCard({
           />
         ) : (
           <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="text-2xl font-bold text-orange-600">
+            <span className="text-xl font-bold text-orange-600">
               {partner.business_name.charAt(0).toUpperCase()}
             </span>
           </div>
@@ -198,7 +198,7 @@ function PartnerCard({
 
       {/* Business Name - Flexible height with consistent spacing */}
       <div className="text-center w-full flex-grow flex flex-col justify-end">
-        <p className="text-sm font-semibold text-gray-700 line-clamp-2 group-hover:text-orange-600 transition-colors mb-1">
+        <p className="text-sm font-bold text-gray-700 line-clamp-2 group-hover:text-orange-600 transition-colors mb-1">
           {partner.business_name}
         </p>
         {partner.category && (

@@ -54,6 +54,7 @@ interface PaginationData {
 export default function AdminUsersPage() {
   const { user, loading: authLoading } = useAuth(true)
   const { toast } = useToast()
+
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
@@ -81,6 +82,7 @@ export default function AdminUsersPage() {
   const fetchUsers = async () => {
     try {
       setLoading(true)
+
       const params = new URLSearchParams({
         page: pagination.current_page.toString(),
         per_page: pagination.per_page.toString(),
@@ -273,6 +275,7 @@ export default function AdminUsersPage() {
       rejected: "bg-red-100 text-red-700",
       deactivated: "bg-gray-100 text-gray-700",
     }
+
     const icons = {
       pending: <Clock className="w-3 h-3" />,
       approved: <CheckCircle className="w-3 h-3" />,

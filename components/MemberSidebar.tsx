@@ -107,7 +107,7 @@ export default function MemberSidebar({
     { icon: Home, label: 'Home', path: '/dashboard/member' },
     { icon: Grid3x3, label: 'Partners', path: '/dashboard/member/partners' },
     { icon: Newspaper, label: 'News', path: '/dashboard/member/news' },
-    { icon: User, label: 'Announcemnets', path: '/dashboard/member/account/announcements' },
+    { icon: User, label: 'Announcemnets', path: '/dashboard/member/announcement' },
     { icon: User, label: 'Certificate of Legitemacy', path: '/dashboard/member/legitimacy' },
   ];
 

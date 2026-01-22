@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { ChevronLeft, Calendar, Eye, Share2, Bookmark, Newspaper } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -22,6 +22,7 @@ interface ApiNewsArticle {
   id: number
   title: string
   description: string
+  category: string
   content: string
   image_url: string | null
   status: string
@@ -29,85 +30,55 @@ interface ApiNewsArticle {
   published_at: string | null
   created_at: string
   updated_at: string
+  author: { name: string } | null
 }
 
 export default function NewsPage() {
   const [news, setNews] = useState<NewsArticle[]>([])
-  const [announcements, setAnnouncements] = useState<NewsArticle[]>([])
-  const [events, setEvents] = useState<NewsArticle[]>([])
-  const [projects, setProjects] = useState<NewsArticle[]>([])
-
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [loading, setLoading] = useState(true)
 
-  const categories = [
-    { value: "all", label: "All News" },
-    { value: "announcements", label: "Announcements" },
-    { value: "events", label: "Events" },
-    { value: "projects", label: "Projects" },
-  ]
-
   const transformArticle = (article: ApiNewsArticle, category: string): NewsArticle => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+    const apiUrl = process.env.NEXT_PUBLIC_IMAGE_URL || "http://localhost:8000"
     return {
       id: `${category}-${article.id}`,
       title: article.title,
-      excerpt: article.description || article.content.substring(0, 150) + "...",
+      excerpt: article.description || article.content?.substring(0, 150) + "...",
       content: article.content,
-      category: category,
-      image: article.image_url ? `${apiUrl}${article.image_url}` : undefined,
-      publishedAt: article.published_at 
-        ? new Date(article.published_at).toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric' 
+      category: article.category,
+      image: article.image_url ? `${article.image_url}` : undefined,
+      publishedAt: article.published_at
+        ? new Date(article.published_at).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
           })
-        : new Date(article.created_at).toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric' 
-          }),
+        : article.created_at
+          ? new Date(article.created_at).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })
+          : undefined,
       views: Math.floor(Math.random() * 1000),
-      author: "Admin"
+      author: article.author?.name || "Admin",
     }
   }
-
+  console.log("fsdfdsfd", news)
   useEffect(() => {
     const fetchAllData = async () => {
       try {
         // Fetch all categories in parallel
-        const [newsRes, announcementsRes, eventsRes, projectsRes] = await Promise.all([
-          fetch("/api/news"),
-          fetch("/api/announcements"),
-          fetch("/api/events"),
-          fetch("/api/projects"),
-        ])
+        const [newsRes] = await Promise.all([fetch("/api/news/published")])
 
-        const [newsData, announcementsData, eventsData, projectsData] = await Promise.all([
-          newsRes.json(),
-          announcementsRes.json(),
-          eventsRes.json(),
-          projectsRes.json(),
-        ])
+        const [newsData] = await Promise.all([newsRes.json()])
 
-        // Transform each category
-        const transformedNews = (Array.isArray(newsData) ? newsData : newsData.news || [])
-          .map((article: ApiNewsArticle) => transformArticle(article, "news"))
-        
-        const transformedAnnouncements = (Array.isArray(announcementsData) ? announcementsData : announcementsData.announcements || [])
-          .map((article: ApiNewsArticle) => transformArticle(article, "announcements"))
-        
-        const transformedEvents = (Array.isArray(eventsData) ? eventsData : eventsData.events || [])
-          .map((article: ApiNewsArticle) => transformArticle(article, "events"))
-        
-        const transformedProjects = (Array.isArray(projectsData) ? projectsData : projectsData.projects || [])
-          .map((article: ApiNewsArticle) => transformArticle(article, "projects"))
+        // Extract articles from paginated data
+        const transformedNews = (Array.isArray(newsData?.data?.data) ? newsData.data.data : []).map((article: ApiNewsArticle) =>
+          transformArticle(article, "news"),
+        )
 
         setNews(transformedNews)
-        setAnnouncements(transformedAnnouncements)
-        setEvents(transformedEvents)
-        setProjects(transformedProjects)
-       
       } catch (error) {
         console.error("Error fetching data:", error)
       } finally {
@@ -118,29 +89,25 @@ export default function NewsPage() {
     fetchAllData()
   }, [])
 
-  // Combine all articles based on selected category
-  const getFilteredNews = () => {
-    switch (selectedCategory) {
-      case "all":
-        return [...news, ...announcements, ...events, ...projects]
-      case "announcements":
-        return announcements
-      case "events":
-        return events
-      case "projects":
-        return projects
-      default:
-        return news
-    }
-  }
+  const allArticles = [...news]
 
-  const filteredNews = getFilteredNews()
+  const categories = useMemo(() => {
+    const catSet = new Set<string>()
+    allArticles.forEach((a) => catSet.add(a.category))
+    const dynamicCategories = Array.from(catSet).map((cat) => ({
+      value: cat,
+      label: `${cat.charAt(0).toUpperCase() + cat.slice(1)} (${allArticles.filter((a) => a.category === cat).length})`,
+    }))
+    return [{ value: "all", label: `All (${allArticles.length})` }, ...dynamicCategories]
+  }, [allArticles])
+
+  const filteredNews = selectedCategory === "all" ? allArticles : allArticles.filter((a) => a.category === selectedCategory)
 
   return (
     <MemberLayout>
       <div className="h-screen overflow-auto bg-gray-50">
         {/* Header */}
-        <header className="bg-linear-to-r from-emerald-600 to-orange-500 text-white px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-10 shadow-md">
+        <header className="bg-linear-to-r from-amber-600 to-red-500 text-white px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-10 shadow-md">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-3">
               <Link href="/" className="hover:bg-white/10 p-1 rounded-lg transition-colors">
@@ -168,7 +135,7 @@ export default function NewsPage() {
                   onClick={() => setSelectedCategory(category.value)}
                   className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg font-semibold text-xs sm:text-sm whitespace-nowrap transition-all ${
                     selectedCategory === category.value
-                      ? "bg-linear-to-r from-emerald-600 to-orange-500 text-white shadow-md"
+                      ? "bg-linear-to-r from-amber-600 to-red-500 text-white shadow-md"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
@@ -185,7 +152,7 @@ export default function NewsPage() {
             {loading ? (
               <div className="flex items-center justify-center py-12">
                 <div className="text-center">
-                  <div className="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                  <div className="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                   <p className="text-gray-600">Loading news...</p>
                 </div>
               </div>
@@ -219,7 +186,7 @@ export default function NewsPage() {
 
                     <div className="p-4 sm:p-5">
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="px-2.5 py-1 bg-linear-to-r from-emerald-500 to-orange-500 text-white text-xs font-bold rounded-full shadow-sm">
+                        <span className="px-2.5 py-1 bg-linear-to-r from-amber-600 to-red-500 text-white text-xs font-bold rounded-full shadow-sm">
                           {article.category}
                         </span>
                         <span className="text-xs text-gray-500 flex items-center gap-1">

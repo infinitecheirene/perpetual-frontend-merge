@@ -1,187 +1,222 @@
-import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { type NextRequest, NextResponse } from "next/server"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"
 
-/* ============================
-          GET NEWS DETAIL
-   ============================ */
+// GET - Fetch single news
 export async function GET(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await context.params;
+    // CRITICAL FIX: Await params in Next.js 15+
+    const { id } = await params
+    
+    const endpoint = `${API_URL}/admin/news/${id}`
+    console.log("[Admin News ID] GET - Fetching:", endpoint)
 
-    const cookieStore = await cookies();
-    const authToken = cookieStore.get("auth_token");
+    const token = request.cookies.get('auth_token')?.value
 
-    if (!authToken) {
+    if (!token) {
       return NextResponse.json(
-        { success: false, message: "Authentication required - no auth token found" },
+        { success: false, message: "Authentication required" },
         { status: 401 }
-      );
+      )
     }
 
-    const response = await fetch(`${API_URL}/admin/news/${id}`, {
+    const response = await fetch(endpoint, {
       method: "GET",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${authToken.value}`,
-        "X-Requested-With": "XMLHttpRequest",
+        Authorization: `Bearer ${token}`,
       },
-      credentials: "include",
-    });
+    })
 
-    const data = await response.json();
-    return NextResponse.json(data);
+    const responseText = await response.text()
+    console.log("[Admin News ID] GET - Response status:", response.status)
+
+    if (!response.ok) {
+      try {
+        const errorData = JSON.parse(responseText)
+        return NextResponse.json(
+          {
+            success: false,
+            message: errorData.message || "Failed to fetch news",
+          },
+          { status: response.status }
+        )
+      } catch {
+        return NextResponse.json(
+          { success: false, message: "Failed to fetch news" },
+          { status: response.status }
+        )
+      }
+    }
+
+    const data = JSON.parse(responseText)
+    return NextResponse.json(data)
   } catch (error) {
+    console.error("[Admin News ID] GET - Error:", error)
     return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error",
-        error: error instanceof Error ? error.message : "Unknown error",
-      },
+      { success: false, message: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
-    );
+    )
   }
 }
 
-/* ============================
-          POST UPDATE (FORM)
-   ============================ */
+// POST - Update news (for FormData with file uploads)
 export async function POST(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await context.params;
-
-    const cookieStore = await cookies();
-    const authToken = cookieStore.get("auth_token");
-
-    if (!authToken) {
+    // CRITICAL FIX: Await params in Next.js 15+
+    const { id } = await params
+    
+    console.log("[Admin News ID] POST - News ID from params:", id)
+    
+    if (!id || id === 'undefined') {
+      console.error("[Admin News ID] POST - Invalid ID:", id)
       return NextResponse.json(
-        { success: false, message: "Authentication required - no auth token found" },
-        { status: 401 }
-      );
+        { success: false, message: "Invalid news ID" },
+        { status: 400 }
+      )
+    }
+    
+    const formData = await request.formData()
+
+    // Add _method field for Laravel to treat as PUT/PATCH
+    formData.append('_method', 'PUT')
+
+    console.log("[Admin News ID] POST - Updating news:", id)
+    console.log("[Admin News ID] FormData entries:")
+    for (const [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        console.log(`  ${key}: File(${value.name}, ${value.size} bytes)`)
+      } else {
+        console.log(`  ${key}: ${value}`)
+      }
     }
 
-    const formData = await request.formData();
+    const token = request.cookies.get('auth_token')?.value
 
-    const response = await fetch(`${API_URL}/admin/news/${id}`, {
+    if (!token) {
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 }
+      )
+    }
+
+    const endpoint = `${API_URL}/admin/news/${id}`
+    console.log("[Admin News ID] POST - Endpoint:", endpoint)
+
+    // Don't set Content-Type for FormData - browser handles multipart boundary
+    const response = await fetch(endpoint, {
       method: "POST",
+      body: formData,
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${authToken.value}`,
-        "X-Requested-With": "XMLHttpRequest",
+        Authorization: `Bearer ${token}`,
       },
-      body: formData,
-      credentials: "include",
-    });
+    })
 
-    const data = await response.json();
-    return NextResponse.json(data, { status: response.status });
-  } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error",
-        error: error instanceof Error ? error.message : "Unknown error",
-      },
-      { status: 500 }
-    );
-  }
-}
+    const responseText = await response.text()
+    console.log("[Admin News ID] POST - Response status:", response.status)
+    console.log("[Admin News ID] POST - Response preview:", responseText.substring(0, 500))
 
-/* ============================
-              PUT
-   ============================ */
-export async function PUT(
-  request: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
-  try {
-    const { id } = await context.params;
-
-    const cookieStore = await cookies();
-    const authToken = cookieStore.get("auth_token");
-
-    if (!authToken) {
-      return NextResponse.json(
-        { success: false, message: "Authentication required - no auth token found" },
-        { status: 401 }
-      );
+    if (!response.ok) {
+      console.error("[Admin News ID] POST - Error response:", responseText)
+      try {
+        const errorData = JSON.parse(responseText)
+        console.log("[Admin News ID] POST - Parsed error:", errorData)
+        return NextResponse.json(
+          {
+            success: false,
+            message: errorData.message || "Failed to update news",
+            errors: errorData.errors || errorData,
+          },
+          { status: response.status }
+        )
+      } catch {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Server error (check Laravel logs)",
+          },
+          { status: response.status }
+        )
+      }
     }
 
-    const body = await request.json();
-
-    const response = await fetch(`${API_URL}/admin/news/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${authToken.value}`,
-        "X-Requested-With": "XMLHttpRequest",
-      },
-      body: JSON.stringify(body),
-      credentials: "include",
-    });
-
-    const data = await response.json();
-    return NextResponse.json(data, { status: response.status });
+    const data = JSON.parse(responseText)
+    console.log("[Admin News ID] POST - Success!")
+    return NextResponse.json(data)
   } catch (error) {
+    console.error("[Admin News ID] POST - Error:", error)
     return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error",
-        error: error instanceof Error ? error.message : "Unknown error",
-      },
+      { success: false, message: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
-    );
+    )
   }
 }
 
-/* ============================
-              DELETE
-   ============================ */
+// DELETE - Delete news
 export async function DELETE(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await context.params;
+    // CRITICAL FIX: Await params in Next.js 15+
+    const { id } = await params
+    
+    const endpoint = `${API_URL}/admin/news/${id}`
+    console.log("[Admin News ID] DELETE - Deleting:", endpoint)
 
-    const cookieStore = await cookies();
-    const authToken = cookieStore.get("auth_token");
+    const token = request.cookies.get('auth_token')?.value
 
-    if (!authToken) {
+    if (!token) {
       return NextResponse.json(
-        { success: false, message: "Authentication required - no auth token found" },
+        { success: false, message: "Authentication required" },
         { status: 401 }
-      );
+      )
     }
 
-    const response = await fetch(`${API_URL}/admin/news/${id}`, {
+    const response = await fetch(endpoint, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${authToken.value}`,
-        "X-Requested-With": "XMLHttpRequest",
+        Authorization: `Bearer ${token}`,
       },
-      credentials: "include",
-    });
+    })
 
-    const data = await response.json();
-    return NextResponse.json(data, { status: response.status });
+    const responseText = await response.text()
+    console.log("[Admin News ID] DELETE - Response status:", response.status)
+
+    if (!response.ok) {
+      try {
+        const errorData = JSON.parse(responseText)
+        return NextResponse.json(
+          {
+            success: false,
+            message: errorData.message || "Failed to delete news",
+          },
+          { status: response.status }
+        )
+      } catch {
+        return NextResponse.json(
+          { success: false, message: "Failed to delete news" },
+          { status: response.status }
+        )
+      }
+    }
+
+    const data = JSON.parse(responseText)
+    console.log("[Admin News ID] DELETE - Success!")
+    return NextResponse.json(data)
   } catch (error) {
+    console.error("[Admin News ID] DELETE - Error:", error)
     return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error",
-        error: error instanceof Error ? error.message : "Unknown error",
-      },
+      { success: false, message: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
-    );
+    )
   }
 }

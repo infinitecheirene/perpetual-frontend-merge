@@ -21,12 +21,12 @@ export default function MemberLayout({ children }: MemberLayoutProps) {
     async function checkAuth() {
       try {
         console.log('MemberLayout: Checking authentication...');
-        
+
         // Get user from cookie-based auth
         const currentUser = await authClient.getCurrentUser();
-        
+
         console.log('MemberLayout: User data received:', currentUser);
-        
+
         if (!currentUser) {
           console.log('MemberLayout: No user found, redirecting to login');
           router.push('/login');

@@ -1,0 +1,559 @@
+[00:00:01.149] Server  WARN    ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:01.297] Server  LOG     ✓ Ready in 900ms
+[00:00:03.977] Server  LOG     Middleware: { pathname: '/', hasToken: true }
+[00:00:03.977] Server  LOG     Middleware: Allowing access
+[00:00:06.527] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:06.837] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:00:07.055] Server  LOG     ==================================================
+[00:00:07.056] Server  LOG     [News API] 🔍 Fetching from: "http://localhost:8000/api/news/published?per_page=3"
+[00:00:07.057] Server  LOG     [News API] 📍 Base API_URL: "http://localhost:8000/api"
+[00:00:07.058] Server  LOG     [News API] 🔗 Query params: "per_page=3"
+[00:00:07.059] Server  LOG     ==================================================
+[00:00:07.172] Server  LOG     Fetching public business partners from: "http://localhost:8000/api/business-partners"
+[00:00:07.193] Browser LOG     🔄 Header mounted, checking PWA status...
+[00:00:07.193] Browser LOG     📱 iOS Device: false
+[00:00:07.193] Browser LOG     ℹ️ App not yet installed
+[00:00:07.193] Browser LOG     [Home] 🔍 Fetching news from: /api/news/published?per_page=3
+[00:00:07.193] Browser LOG     📲 Global beforeinstallprompt captured!
+[00:00:07.194] Browser LOG     📲 beforeinstallprompt event in component
+[00:00:07.196] Server  LOG     [Announcements API] Fetching from: "http://localhost:8000/api/announcements/published?per_page=8"
+[00:00:08.236] Server  LOG     API Route - Laravel response status: 200
+[00:00:08.254] Server  LOG     API Route - Laravel response data: {}
+[00:00:08.256] Server  LOG     API Route - Extracted user: {}
+[00:00:08.745] Browser LOG     📊 PWA Debug Info: {"hasPrompt":true,"isIOS":false,"isStandalone":false,"showButton":false,"userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 Edg/144.0.0.0"}
+[00:00:09.016] Server  LOG     [News API] ✅ Response status: 200
+[00:00:09.017] Server  LOG     [News API] 📝 Response preview: "{\"success\":true,\"data\":{\"current_page\":1,\"data\":[{\"id\":1,\"title\":\"Medical services offered to promote wellness in the school community.\",\"content\":\"The School of Perpetual partnered with the City Health Office to provide free medical check\\u2011ups, including dental consultations and vaccinations. The initiative aims to ensure the well\\u2011being of students and faculty, reinforcing the school\\u2019s commitment to holistic education.\",\"category\":\"Health\",\"image\":\"images\\/news\\/1769000081_uzKeadM"
+[00:00:09.018] Server  LOG     [News API] 🎉 Success! News items: 1
+[00:00:09.132] Browser LOG     [Home] 📡 Response status: 200
+[00:00:09.132] Browser LOG     [Home] 📡 Response ok: true
+[00:00:09.132] Browser LOG     [Home] ✅ API response: {"data":{"current_page":1,"data":[{"author":{"id":1,"name":"Raiza Habana"},"author_id":1,"category":"Health","content":"The School of Perpetual partnered with the City Health Office to provide free medical check‑ups, including dental consultations and vaccinations. The initiative aims to ensure the well‑being of students and faculty, reinforcing the school’s commitment to holistic education.","created_at":"2026-01-21T12:54:41.000000Z","deleted_at":null,"id":1,"image":"images/news/1769000081_uzKeadMIV7.png","image_url":"http://localhost:8000/images/news/1769000081_uzKeadMIV7.png","published_at":"2026-01-16T21:09:00.000000Z","status":"published","title":"Medical services offered to promote wellness in the school community.","updated_at":"2026-01-21T13:09:52.000000Z"}],"first_page_url":"http://localhost:8000/api/news/published?page=1","from":1,"last_page":1,"last_page_url":"http://localhost:8000/api/news/published?page=1","links":[{"active":false,"label":"&laquo; Previous","page":null,"url":null},{"active":true,"label":"1","page":1,"url":"http://localhost:8000/api/news/published?page=1"},{"active":false,"label":"Next &raquo;","page":null,"url":null}],"next_page_url":null,"path":"http://localhost:8000/api/news/published","per_page":3,"prev_page_url":null,"to":1,"total":1},"success":true}
+[00:00:09.132] Browser LOG     [Home] 📰 Processed news data: [{"author":{"id":1,"name":"Raiza Habana"},"author_id":1,"category":"Health","content":"The School of Perpetual partnered with the City Health Office to provide free medical check‑ups, including dental consultations and vaccinations. The initiative aims to ensure the well‑being of students and faculty, reinforcing the school’s commitment to holistic education.","created_at":"2026-01-21T12:54:41.000000Z","deleted_at":null,"id":1,"image":"images/news/1769000081_uzKeadMIV7.png","image_url":"http://localhost:8000/images/news/1769000081_uzKeadMIV7.png","published_at":"2026-01-16T21:09:00.000000Z","status":"published","title":"Medical services offered to promote wellness in the school community.","updated_at":"2026-01-21T13:09:52.000000Z"}]
+[00:00:09.811] Server  LOG     Laravel response: {}
+[00:00:09.812] Server  LOG     Transformed response with full image URLs
+[00:00:10.624] Server  LOG     [Announcements API] Response status: 404
+[00:00:10.636] Server  ERROR   [Announcements API] Error response: "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Announcement] published\",\n    \"exception\": \"Symfony\\\\Component\\\\HttpKernel\\\\Exception\\\\NotFoundHttpException\",\n    \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Exceptions\\\\Handler.php\",\n    \"line\": 668,\n    \"trace\": [\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Exceptions\\\\Handler.php\",\n            \"line\": 616,\n            \"function\": \"prepareException\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Routing\\\\Pipeline.php\",\n            \"line\": 51,\n            \"function\": \"render\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 182,\n            \"function\": \"handleException\",\n            \"class\": \"Illuminate\\\\Routing\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Routing\\\\Middleware\\\\SubstituteBindings.php\",\n            \"line\": 50,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\SubstituteBindings\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\sanctum\\\\src\\\\Http\\\\Middleware\\\\EnsureFrontendRequestsAreStateful.php\",\n            \"line\": 26,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\{closure}\",\n            \"class\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\EnsureFrontendRequestsAreStateful\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 137,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\sanctum\\\\src\\\\Http\\\\Middleware\\\\EnsureFrontendRequestsAreStateful.php\",\n            \"line\": 25,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\EnsureFrontendRequestsAreStateful\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 137,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Routing\\\\Router.php\",\n            \"line\": 821,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Routing\\\\Router.php\",\n            \"line\": 800,\n            \"function\": \"runRouteWithinStack\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Routing\\\\Router.php\",\n            \"line\": 764,\n            \"function\": \"runRoute\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Routing\\\\Router.php\",\n            \"line\": 753,\n            \"function\": \"dispatchToRoute\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Http\\\\Kernel.php\",\n            \"line\": 200,\n            \"function\": \"dispatch\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"Illuminate\\\\Foundation\\\\Http\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TransformsRequest.php\",\n            \"line\": 21,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\ConvertEmptyStringsToNull.php\",\n            \"line\": 31,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TransformsRequest\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\ConvertEmptyStringsToNull\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TransformsRequest.php\",\n            \"line\": 21,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TrimStrings.php\",\n            \"line\": 51,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TransformsRequest\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TrimStrings\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Http\\\\Middleware\\\\ValidatePostSize.php\",\n            \"line\": 27,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Http\\\\Middleware\\\\ValidatePostSize\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\PreventRequestsDuringMaintenance.php\",\n            \"line\": 109,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\PreventRequestsDuringMaintenance\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Http\\\\Middleware\\\\HandleCors.php\",\n            \"line\": 61,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Http\\\\Middleware\\\\HandleCors\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Http\\\\Middleware\\\\TrustProxies.php\",\n            \"line\": 58,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Http\\\\Middleware\\\\TrustProxies\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\InvokeDeferredCallbacks.php\",\n            \"line\": 22,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\InvokeDeferredCallbacks\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Http\\\\Middleware\\\\ValidatePathEncoding.php\",\n            \"line\": 26,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Http\\\\Middleware\\\\ValidatePathEncoding\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Pipeline\\\\Pipeline.php\",\n            \"line\": 137,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Http\\\\Kernel.php\",\n            \"line\": 175,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Http\\\\Kernel.php\",\n            \"line\": 144,\n            \"function\": \"sendRequestThroughRouter\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Application.php\",\n            \"line\": 1220,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\public\\\\index.php\",\n            \"line\": 20,\n            \"function\": \"handleRequest\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"C:\\\\Users\\\\raiza\\\\OneDrive\\\\Documents\\\\Github\\\\perpetual_merged\\\\perpetual_backend\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\resources\\\\server.php\",\n            \"line\": 23,\n            \"function\": \"require_once\"\n        }\n    ]\n}"
+[00:00:10.746] Browser ERROR   [Home] Failed to fetch announcements: {}
+[00:00:15.082] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:15.085] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:15.687] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:15.701] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:15.702] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:16.363] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:16.379] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:16.379] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:16.827] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:16.827] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:17.019] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:17.033] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:17.034] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:17.659] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:18.276] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:18.293] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:18.296] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:18.560] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:18.561] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:18.914] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:18.929] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:18.930] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:19.563] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:20.200] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:20.213] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:20.214] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:20.810] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:20.823] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:20.824] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:21.413] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:21.427] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:21.428] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:21.658] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:21.663] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:21.663] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:21.815] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:21.819] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:21.820] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:21.972] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:21.975] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:21.975] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:22.122] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:22.129] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:22.129] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:22.280] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:22.283] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:22.284] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:22.437] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:22.441] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:22.442] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:22.591] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:22.596] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:22.596] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:22.741] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:22.745] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:22.746] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:22.889] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:22.893] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:22.893] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:23.039] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:23.044] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:23.044] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:23.204] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:23.207] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:23.208] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:23.348] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:23.353] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:23.354] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:23.498] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:23.501] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:23.501] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:23.639] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:23.642] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:23.642] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:23.786] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:23.791] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:23.791] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:23.932] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:23.936] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:23.936] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:24.073] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:24.076] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:24.077] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:24.218] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:24.223] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:24.223] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:24.364] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:24.368] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:24.368] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:24.506] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:24.511] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:24.511] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:24.649] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:24.653] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:24.653] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:24.793] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:24.796] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:24.796] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:24.937] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:24.941] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:24.941] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:25.083] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:25.087] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:25.087] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:25.231] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:25.236] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:25.236] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:25.380] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:25.384] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:25.384] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:25.526] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:25.529] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:25.530] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:25.665] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:25.669] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:25.670] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:25.807] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:25.811] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:25.811] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:25.951] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:25.954] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:25.954] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:26.099] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:26.103] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:26.103] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:26.244] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:26.248] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:26.248] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:26.388] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:26.392] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:26.392] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:26.535] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:26.538] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:26.539] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:26.679] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:26.683] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:26.683] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:26.822] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:26.825] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:26.825] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:26.962] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:26.966] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:26.966] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:27.103] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:27.107] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:27.107] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:27.243] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:27.247] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:27.247] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:27.384] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:27.388] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:27.388] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:27.542] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:27.545] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:27.546] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:27.686] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:27.690] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:27.690] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:27.828] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:27.834] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:27.834] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:28.021] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:28.897] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:28.897] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:29.046] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:29.055] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:29.055] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:29.212] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:29.220] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:29.220] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:29.364] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:29.371] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:29.371] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:29.521] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:29.528] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:29.528] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:29.672] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:29.678] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:29.679] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:29.818] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:29.826] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:29.827] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:29.968] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:29.976] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:29.976] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:30.118] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:30.126] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:30.126] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:30.267] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:30.273] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:30.274] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:30.418] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:30.425] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:30.425] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:30.571] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:30.581] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:30.581] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:30.725] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:30.732] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:30.732] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:30.873] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:30.880] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:30.880] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:31.024] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:31.034] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:31.034] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:31.176] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:31.184] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:31.184] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:31.332] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:31.340] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:31.341] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:31.483] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:31.492] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:31.492] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:31.637] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:31.643] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:31.644] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:31.787] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:31.793] Server  LOG     Middleware: { pathname: '/login', hasToken: true }
+[00:00:31.793] Server  LOG     Middleware: User has token on login/register, checking role...
+[00:00:31.941] Server  LOG     Middleware: Role check failed, redirecting to home
+[00:00:36.382] Server  LOG     Middleware: { pathname: '/login', hasToken: false }
+[00:00:36.383] Server  LOG     Middleware: Allowing access
+[00:00:36.807] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:47.597] Server  LOG     Login attempt: {}
+[00:00:48.693] Server  LOG     Laravel response: {}
+[00:00:50.221] Server  LOG     Middleware: { pathname: '/dashboard/admin', hasToken: true }
+[00:00:50.222] Server  LOG     Middleware: Allowing access
+[00:00:50.316] Browser LOG     Redirecting admin to: /dashboard/admin/
+[00:00:50.637] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:00:50.726] Browser LOG     AdminLayout: Checking authentication...
+[00:00:50.726] Browser LOG     useAuth: Starting auth check...
+[00:00:50.726] Browser LOG     AdminLayout: Checking authentication...
+[00:00:50.726] Browser LOG     useAuth: Starting auth check...
+[00:00:51.208] Server  LOG     API Route - Laravel response status: 200
+[00:00:51.212] Server  LOG     API Route - Laravel response data: {}
+[00:00:51.213] Server  LOG     API Route - Extracted user: {}
+[00:00:51.229] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:00:51.322] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:00:51.322] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:00:51.322] Browser LOG     AdminLayout: User data received: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:00:51.322] Browser LOG     AdminLayout: Auth successful, user: Raiza Habana
+[00:00:51.798] Server  LOG     API Route - Laravel response status: 200
+[00:00:51.803] Server  LOG     API Route - Laravel response data: {}
+[00:00:51.804] Server  LOG     API Route - Extracted user: {}
+[00:00:51.836] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:00:51.975] Server  LOG     [Admin News] GET - Fetching from: "http://localhost:8000/api/admin/news"
+[00:00:51.988] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:00:51.988] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:00:51.988] Browser LOG     useAuth: Got user: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:00:51.988] Browser LOG     useAuth: Setting user
+[00:00:51.988] Browser LOG     useAuth: Setting loading to false
+[00:00:52.473] Server  LOG     API Route - Laravel response status: 200
+[00:00:52.476] Server  LOG     API Route - Laravel response data: {}
+[00:00:52.477] Server  LOG     API Route - Extracted user: {}
+[00:00:52.859] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:00:52.859] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:00:52.859] Browser LOG     AdminLayout: User data received: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:00:52.859] Browser LOG     AdminLayout: Auth successful, user: Raiza Habana
+[00:00:52.956] Server  LOG     GET Token found: "Yes"
+[00:00:52.959] Server  LOG     Fetching from: "http://localhost:8000/api/reports"
+[00:00:53.029] Server  LOG     [Admin News] GET - Response status: 200
+[00:00:53.030] Server  LOG     [Admin News] GET - Success! News count: 1
+[00:00:53.111] Server  LOG     Fetching users: {}
+[00:00:53.129] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:00:53.510] Server  LOG     Laravel response status: 404
+[00:00:54.205] Server  LOG     Laravel raw response: {}
+[00:00:54.206] Server  LOG     Laravel response: {}
+[00:00:54.746] Server  LOG     API Route - Laravel response status: 200
+[00:00:54.751] Server  LOG     API Route - Laravel response data: {}
+[00:00:54.752] Server  LOG     API Route - Extracted user: {}
+[00:00:54.821] Server  LOG     [Admin News] GET - Fetching from: "http://localhost:8000/api/admin/news"
+[00:00:54.991] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:00:54.991] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:00:54.991] Browser LOG     useAuth: Got user: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:00:54.991] Browser LOG     useAuth: Setting user
+[00:00:54.991] Browser LOG     useAuth: Setting loading to false
+[00:00:55.536] Server  LOG     GET Token found: "Yes"
+[00:00:55.536] Server  LOG     Fetching from: "http://localhost:8000/api/reports"
+[00:00:55.547] Server  LOG     Fetching users: {}
+[00:00:55.830] Server  LOG     [Admin News] GET - Response status: 200
+[00:00:55.831] Server  LOG     [Admin News] GET - Success! News count: 1
+[00:00:55.861] Server  LOG     Middleware: { pathname: '/dashboard/admin/office-contact', hasToken: true }
+[00:00:55.861] Server  LOG     Middleware: Allowing access
+[00:00:56.329] Server  LOG     Laravel response status: 404
+[00:00:56.927] Server  LOG     Laravel raw response: {}
+[00:00:56.928] Server  LOG     Laravel response: {}
+[00:00:57.033] Server  LOG     Middleware: { pathname: '/dashboard/admin/users', hasToken: true }
+[00:00:57.033] Server  LOG     Middleware: Allowing access
+[00:00:57.309] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:00:57.509] Browser LOG     AdminLayout: Checking authentication...
+[00:00:57.509] Browser LOG     useAuth: Starting auth check...
+[00:00:57.509] Browser LOG     AdminLayout: Checking authentication...
+[00:00:57.509] Browser LOG     useAuth: Starting auth check...
+[00:00:57.843] Server  LOG     API Route - Laravel response status: 200
+[00:00:57.846] Server  LOG     API Route - Laravel response data: {}
+[00:00:57.847] Server  LOG     API Route - Extracted user: {}
+[00:00:57.860] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:00:57.957] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:00:57.957] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:00:57.957] Browser LOG     AdminLayout: User data received: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:00:57.957] Browser LOG     AdminLayout: Auth successful, user: Raiza Habana
+[00:00:58.397] Server  LOG     API Route - Laravel response status: 200
+[00:00:58.403] Server  LOG     API Route - Laravel response data: {}
+[00:00:58.405] Server  LOG     API Route - Extracted user: {}
+[00:00:58.430] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:00:58.457] Server  LOG     Fetching users: {}
+[00:00:58.524] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:00:58.524] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:00:58.524] Browser LOG     useAuth: Got user: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:00:58.524] Browser LOG     useAuth: Setting user
+[00:00:58.524] Browser LOG     useAuth: Setting loading to false
+[00:00:58.987] Server  LOG     API Route - Laravel response status: 200
+[00:00:58.991] Server  LOG     API Route - Laravel response data: {}
+[00:00:58.992] Server  LOG     API Route - Extracted user: {}
+[00:00:59.023] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:00:59.101] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:00:59.101] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:00:59.101] Browser LOG     AdminLayout: User data received: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:00:59.101] Browser LOG     AdminLayout: Auth successful, user: Raiza Habana
+[00:00:59.593] Server  LOG     Laravel raw response: {}
+[00:00:59.594] Server  LOG     Laravel response: {}
+[00:01:00.048] Server  LOG     Middleware: { pathname: '/dashboard/admin', hasToken: true }
+[00:01:00.049] Server  LOG     Middleware: Allowing access
+[00:01:00.157] Server  LOG     API Route - Laravel response status: 200
+[00:01:00.162] Server  LOG     API Route - Laravel response data: {}
+[00:01:00.163] Server  LOG     API Route - Extracted user: {}
+[00:01:00.185] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:00.274] Browser LOG     AdminLayout: Checking authentication...
+[00:01:00.274] Browser LOG     useAuth: Starting auth check...
+[00:01:00.274] Browser LOG     AdminLayout: Checking authentication...
+[00:01:00.274] Browser LOG     useAuth: Starting auth check...
+[00:01:00.274] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:00.274] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:00.274] Browser LOG     useAuth: Got user: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:00.274] Browser LOG     useAuth: Setting user
+[00:01:00.274] Browser LOG     useAuth: Setting loading to false
+[00:01:00.729] Server  LOG     API Route - Laravel response status: 200
+[00:01:00.734] Server  LOG     API Route - Laravel response data: {}
+[00:01:00.735] Server  LOG     API Route - Extracted user: {}
+[00:01:00.757] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:00.841] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:00.841] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:00.841] Browser LOG     AdminLayout: User data received: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:00.841] Browser LOG     AdminLayout: Auth successful, user: Raiza Habana
+[00:01:01.336] Server  LOG     API Route - Laravel response status: 200
+[00:01:01.341] Server  LOG     API Route - Laravel response data: {}
+[00:01:01.342] Server  LOG     API Route - Extracted user: {}
+[00:01:01.365] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:01.388] Server  LOG     [Admin News] GET - Fetching from: "http://localhost:8000/api/admin/news"
+[00:01:01.753] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:01.753] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:01.753] Browser LOG     useAuth: Got user: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:01.753] Browser LOG     useAuth: Setting user
+[00:01:01.753] Browser LOG     useAuth: Setting loading to false
+[00:01:02.066] Server  LOG     API Route - Laravel response status: 200
+[00:01:02.166] Server  LOG     API Route - Laravel response data: {}
+[00:01:02.167] Server  LOG     API Route - Extracted user: {}
+[00:01:02.312] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:02.312] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:02.312] Browser LOG     AdminLayout: User data received: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:02.312] Browser LOG     AdminLayout: Auth successful, user: Raiza Habana
+[00:01:02.376] Server  LOG     GET Token found: "Yes"
+[00:01:02.377] Server  LOG     Fetching from: "http://localhost:8000/api/reports"
+[00:01:02.421] Server  LOG     Fetching users: {}
+[00:01:02.424] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:02.544] Server  LOG     [Admin News] GET - Response status: 200
+[00:01:02.544] Server  LOG     [Admin News] GET - Success! News count: 1
+[00:01:03.067] Server  LOG     Laravel response status: 404
+[00:01:03.663] Server  LOG     Laravel raw response: {}
+[00:01:03.665] Server  LOG     Laravel response: {}
+[00:01:04.280] Server  LOG     API Route - Laravel response status: 200
+[00:01:04.285] Server  LOG     API Route - Laravel response data: {}
+[00:01:04.287] Server  LOG     API Route - Extracted user: {}
+[00:01:04.356] Server  LOG     [Admin News] GET - Fetching from: "http://localhost:8000/api/admin/news"
+[00:01:04.752] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:04.753] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:04.753] Browser LOG     useAuth: Got user: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:04.753] Browser LOG     useAuth: Setting user
+[00:01:04.753] Browser LOG     useAuth: Setting loading to false
+[00:01:05.253] Server  LOG     GET Token found: "Yes"
+[00:01:05.255] Server  LOG     Fetching from: "http://localhost:8000/api/reports"
+[00:01:05.258] Server  LOG     Fetching users: {}
+[00:01:05.439] Server  LOG     [Admin News] GET - Response status: 200
+[00:01:05.440] Server  LOG     [Admin News] GET - Success! News count: 1
+[00:01:06.142] Server  LOG     Laravel response status: 404
+[00:01:06.797] Server  LOG     Middleware: { pathname: '/dashboard/admin/news', hasToken: true }
+[00:01:06.798] Server  LOG     Middleware: Allowing access
+[00:01:07.002] Server  LOG     Laravel raw response: {}
+[00:01:07.003] Server  LOG     Laravel response: {}
+[00:01:07.081] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:07.170] Browser LOG     useAuth: Starting auth check...
+[00:01:07.170] Browser LOG     useAuth: Starting auth check...
+[00:01:07.841] Server  LOG     API Route - Laravel response status: 200
+[00:01:07.848] Server  LOG     API Route - Laravel response data: {}
+[00:01:07.851] Server  LOG     API Route - Extracted user: {}
+[00:01:07.877] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:07.900] Server  LOG     [Admin News] GET - Fetching from: "http://localhost:8000/api/admin/news?page=1&per_page=15"
+[00:01:07.972] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:07.972] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:07.972] Browser LOG     useAuth: Got user: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:07.972] Browser LOG     useAuth: Setting user
+[00:01:07.972] Browser LOG     useAuth: Setting loading to false
+[00:01:07.972] Browser LOG     AdminLayout: Checking authentication...
+[00:01:07.972] Browser LOG     AdminLayout: Checking authentication...
+[00:01:08.610] Server  LOG     API Route - Laravel response status: 200
+[00:01:08.618] Server  LOG     API Route - Laravel response data: {}
+[00:01:08.620] Server  LOG     API Route - Extracted user: {}
+[00:01:08.653] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:08.730] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:08.730] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:08.730] Browser LOG     useAuth: Got user: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:08.730] Browser LOG     useAuth: Setting user
+[00:01:08.730] Browser LOG     useAuth: Setting loading to false
+[00:01:09.393] Server  LOG     [Admin News] GET - Response status: 200
+[00:01:09.394] Server  LOG     [Admin News] GET - Success! News count: 1
+[00:01:09.418] Server  LOG     [Admin News] GET - Fetching from: "http://localhost:8000/api/admin/news?page=1&per_page=15"
+[00:01:09.507] Browser LOG     News response: {"data":{"current_page":1,"data":[{"author":{"email":"infinitech.raiza@gmail.com","id":1,"name":"Raiza Habana"},"author_id":1,"category":"Health","content":"The School of Perpetual partnered with the City Health Office to provide free medical check‑ups, including dental consultations and vaccinations. The initiative aims to ensure the well‑being of students and faculty, reinforcing the school’s commitment to holistic education.","created_at":"2026-01-21T12:54:41.000000Z","deleted_at":null,"id":1,"image":"images/news/1769000081_uzKeadMIV7.png","image_url":"http://localhost:8000/images/news/1769000081_uzKeadMIV7.png","published_at":"2026-01-16T21:09:00.000000Z","status":"published","title":"Medical services offered to promote wellness in the school community.","updated_at":"2026-01-21T13:09:52.000000Z"}],"first_page_url":"http://localhost:8000/api/admin/news?page=1","from":1,"last_page":1,"last_page_url":"http://localhost:8000/api/admin/news?page=1","links":[{"active":false,"label":"&laquo; Previous","page":null,"url":null},{"active":true,"label":"1","page":1,"url":"http://localhost:8000/api/admin/news?page=1"},{"active":false,"label":"Next &raquo;","page":null,"url":null}],"next_page_url":null,"path":"http://localhost:8000/api/admin/news","per_page":15,"prev_page_url":null,"to":1,"total":1},"success":true}
+[00:01:10.197] Server  LOG     API Route - Laravel response status: 200
+[00:01:10.203] Server  LOG     API Route - Laravel response data: {}
+[00:01:10.205] Server  LOG     API Route - Extracted user: {}
+[00:01:10.239] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:10.318] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:10.318] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:10.318] Browser LOG     AdminLayout: User data received: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:10.318] Browser LOG     AdminLayout: Auth successful, user: Raiza Habana
+[00:01:11.064] Server  LOG     [Admin News] GET - Response status: 200
+[00:01:11.065] Server  LOG     [Admin News] GET - Success! News count: 1
+[00:01:11.189] Browser LOG     News response: {"data":{"current_page":1,"data":[{"author":{"email":"infinitech.raiza@gmail.com","id":1,"name":"Raiza Habana"},"author_id":1,"category":"Health","content":"The School of Perpetual partnered with the City Health Office to provide free medical check‑ups, including dental consultations and vaccinations. The initiative aims to ensure the well‑being of students and faculty, reinforcing the school’s commitment to holistic education.","created_at":"2026-01-21T12:54:41.000000Z","deleted_at":null,"id":1,"image":"images/news/1769000081_uzKeadMIV7.png","image_url":"http://localhost:8000/images/news/1769000081_uzKeadMIV7.png","published_at":"2026-01-16T21:09:00.000000Z","status":"published","title":"Medical services offered to promote wellness in the school community.","updated_at":"2026-01-21T13:09:52.000000Z"}],"first_page_url":"http://localhost:8000/api/admin/news?page=1","from":1,"last_page":1,"last_page_url":"http://localhost:8000/api/admin/news?page=1","links":[{"active":false,"label":"&laquo; Previous","page":null,"url":null},{"active":true,"label":"1","page":1,"url":"http://localhost:8000/api/admin/news?page=1"},{"active":false,"label":"Next &raquo;","page":null,"url":null}],"next_page_url":null,"path":"http://localhost:8000/api/admin/news","per_page":15,"prev_page_url":null,"to":1,"total":1},"success":true}
+[00:01:11.847] Server  LOG     API Route - Laravel response status: 200
+[00:01:11.851] Server  LOG     API Route - Laravel response data: {}
+[00:01:11.852] Server  LOG     API Route - Extracted user: {}
+[00:01:11.965] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:11.965] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:11.965] Browser LOG     AdminLayout: User data received: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:11.965] Browser LOG     AdminLayout: Auth successful, user: Raiza Habana
+[00:01:14.042] Server  LOG     Middleware: { pathname: '/dashboard/admin/announcements', hasToken: true }
+[00:01:14.043] Server  LOG     Middleware: Allowing access
+[00:01:14.463] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:14.525] Browser LOG     useAuth: Starting auth check...
+[00:01:14.525] Browser LOG     useAuth: Starting auth check...
+[00:01:15.266] Server  LOG     API Route - Laravel response status: 200
+[00:01:15.275] Server  LOG     API Route - Laravel response data: {}
+[00:01:15.276] Server  LOG     API Route - Extracted user: {}
+[00:01:15.312] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:15.433] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:15.433] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:15.433] Browser LOG     useAuth: Got user: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:15.433] Browser LOG     useAuth: Setting user
+[00:01:15.433] Browser LOG     useAuth: Setting loading to false
+[00:01:15.433] Browser LOG     AdminLayout: Checking authentication...
+[00:01:15.433] Browser LOG     Fetching announcements with params: page=1&per_page=15
+[00:01:15.433] Browser LOG     AdminLayout: Checking authentication...
+[00:01:15.435] Server  LOG     Fetching from Laravel: "http://localhost:8000/api/announcements?page=1&per_page=15"
+[00:01:16.038] Server  LOG     API Route - Laravel response status: 200
+[00:01:16.042] Server  LOG     API Route - Laravel response data: {}
+[00:01:16.045] Server  LOG     API Route - Extracted user: {}
+[00:01:16.073] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:16.157] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:16.157] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:16.157] Browser LOG     useAuth: Got user: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:16.157] Browser LOG     useAuth: Setting user
+[00:01:16.157] Browser LOG     useAuth: Setting loading to false
+[00:01:16.157] Browser LOG     Fetching announcements with params: page=1&per_page=15
+[00:01:16.817] Server  LOG     Laravel response: {}
+[00:01:16.845] Server  LOG     Fetching from Laravel: "http://localhost:8000/api/announcements?page=1&per_page=15"
+[00:01:16.925] Browser LOG     Response status: 200
+[00:01:16.925] Browser LOG     Announcements response: {"data":{"current_page":1,"data":[{"category":"Update","content":"The fiesta will begin with a thanksgiving mass at 9:00 AM, followed by a parade showcasing local talents. Evening highlights include live bands, cultural dances, and fireworks. Everyone is welcome to join the festivities.","created_at":"2026-01-21T11:55:13.000000Z","date":"2026-01-21T00:00:00.000000Z","deleted_at":null,"description":"Celebrate our annual fiesta with food, music, and tradition.","id":5,"image_url":null,"is_active":true,"priority":0,"title":"Fiesta Celebration","updated_at":"2026-01-21T11:55:13.000000Z"},{"category":"Update","content":"All residents are encouraged to attend the barangay assembly at the Perpetual Village Hall, 6:00 PM. Topics include budget allocation, upcoming projects, and community concerns. Your participation ensures transparency and collaboration.","created_at":"2026-01-21T11:54:46.000000Z","date":"2026-08-06T00:00:00.000000Z","deleted_at":null,"description":"Quarterly assembly to discuss community updates.","id":4,"image_url":"uploads/announcements/1768996486_rWmQoChCCK.jpg","is_active":true,"priority":0,"title":"Barangay Assembly Meeting","updated_at":"2026-01-21T11:54:46.000000Z"},{"category":"Health","content":"The annual Youth Sports Festival will feature basketball, volleyball, and track events. Registration is open until April 10 at the barangay office. Winners will receive medals and certificates.","created_at":"2026-01-21T11:42:20.000000Z","date":"2026-01-21T00:00:00.000000Z","deleted_at":null,"description":"A day of fun and competition for the youth.","id":3,"image_url":"uploads/announcements/1768996402_lzM4iD9aiH.jpg","is_active":true,"priority":0,"title":"Youth Sports Festival","updated_at":"2026-01-21T11:53:22.000000Z"},{"category":"Health","content":"The City Health Office will conduct free medical check‑ups, including blood pressure monitoring and basic laboratory tests. Venue: Perpetual Village Covered Court, 9:00 AM to 3:00 PM. Bring a valid ID for registration.","created_at":"2026-01-21T11:41:04.000000Z","date":"2026-01-16T00:00:00.000000Z","deleted_at":null,"description":"Free health services for all residents.","id":2,"image_url":"uploads/announcements/1768995664_VzXafhFa6h.png","is_active":true,"priority":8,"title":"Free Medical Check‑Up","updated_at":"2026-01-21T11:53:56.000000Z"},{"category":"Event","content":"Residents are invited to participate in the annual clean‑up drive. Meet at the barangay hall at 8:00 AM. Gloves, trash bags, and refreshments will be provided. Let’s work together to maintain a healthy environment.","created_at":"2026-01-21T11:40:12.000000Z","date":"2026-01-23T00:00:00.000000Z","deleted_at":null,"description":"Join us in keeping our village clean and green.","id":1,"image_url":"uploads/announcements/1768996418_0cwc6OrlQA.png","is_active":true,"priority":4,"title":"Community Clean‑Up Drive","updated_at":"2026-01-21T11:53:38.000000Z"}],"first_page_url":"http://localhost:8000/api/announcements?page=1","from":1,"last_page":1,"last_page_url":"http://localhost:8000/api/announcements?page=1","links":[{"active":false,"label":"&laquo; Previous","page":null,"url":null},{"active":true,"label":"1","page":1,"url":"http://localhost:8000/api/announcements?page=1"},{"active":false,"label":"Next &raquo;","page":null,"url":null}],"next_page_url":null,"path":"http://localhost:8000/api/announcements","per_page":15,"prev_page_url":null,"to":5,"total":5},"success":true}
+[00:01:17.527] Server  LOG     API Route - Laravel response status: 200
+[00:01:17.533] Server  LOG     API Route - Laravel response data: {}
+[00:01:17.535] Server  LOG     API Route - Extracted user: {}
+[00:01:17.572] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:17.651] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:17.652] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:17.652] Browser LOG     AdminLayout: User data received: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:17.652] Browser LOG     AdminLayout: Auth successful, user: Raiza Habana
+[00:01:18.315] Server  LOG     Laravel response: {}
+[00:01:18.422] Browser LOG     Response status: 200
+[00:01:18.423] Browser LOG     Announcements response: {"data":{"current_page":1,"data":[{"category":"Update","content":"The fiesta will begin with a thanksgiving mass at 9:00 AM, followed by a parade showcasing local talents. Evening highlights include live bands, cultural dances, and fireworks. Everyone is welcome to join the festivities.","created_at":"2026-01-21T11:55:13.000000Z","date":"2026-01-21T00:00:00.000000Z","deleted_at":null,"description":"Celebrate our annual fiesta with food, music, and tradition.","id":5,"image_url":null,"is_active":true,"priority":0,"title":"Fiesta Celebration","updated_at":"2026-01-21T11:55:13.000000Z"},{"category":"Update","content":"All residents are encouraged to attend the barangay assembly at the Perpetual Village Hall, 6:00 PM. Topics include budget allocation, upcoming projects, and community concerns. Your participation ensures transparency and collaboration.","created_at":"2026-01-21T11:54:46.000000Z","date":"2026-08-06T00:00:00.000000Z","deleted_at":null,"description":"Quarterly assembly to discuss community updates.","id":4,"image_url":"uploads/announcements/1768996486_rWmQoChCCK.jpg","is_active":true,"priority":0,"title":"Barangay Assembly Meeting","updated_at":"2026-01-21T11:54:46.000000Z"},{"category":"Health","content":"The annual Youth Sports Festival will feature basketball, volleyball, and track events. Registration is open until April 10 at the barangay office. Winners will receive medals and certificates.","created_at":"2026-01-21T11:42:20.000000Z","date":"2026-01-21T00:00:00.000000Z","deleted_at":null,"description":"A day of fun and competition for the youth.","id":3,"image_url":"uploads/announcements/1768996402_lzM4iD9aiH.jpg","is_active":true,"priority":0,"title":"Youth Sports Festival","updated_at":"2026-01-21T11:53:22.000000Z"},{"category":"Health","content":"The City Health Office will conduct free medical check‑ups, including blood pressure monitoring and basic laboratory tests. Venue: Perpetual Village Covered Court, 9:00 AM to 3:00 PM. Bring a valid ID for registration.","created_at":"2026-01-21T11:41:04.000000Z","date":"2026-01-16T00:00:00.000000Z","deleted_at":null,"description":"Free health services for all residents.","id":2,"image_url":"uploads/announcements/1768995664_VzXafhFa6h.png","is_active":true,"priority":8,"title":"Free Medical Check‑Up","updated_at":"2026-01-21T11:53:56.000000Z"},{"category":"Event","content":"Residents are invited to participate in the annual clean‑up drive. Meet at the barangay hall at 8:00 AM. Gloves, trash bags, and refreshments will be provided. Let’s work together to maintain a healthy environment.","created_at":"2026-01-21T11:40:12.000000Z","date":"2026-01-23T00:00:00.000000Z","deleted_at":null,"description":"Join us in keeping our village clean and green.","id":1,"image_url":"uploads/announcements/1768996418_0cwc6OrlQA.png","is_active":true,"priority":4,"title":"Community Clean‑Up Drive","updated_at":"2026-01-21T11:53:38.000000Z"}],"first_page_url":"http://localhost:8000/api/announcements?page=1","from":1,"last_page":1,"last_page_url":"http://localhost:8000/api/announcements?page=1","links":[{"active":false,"label":"&laquo; Previous","page":null,"url":null},{"active":true,"label":"1","page":1,"url":"http://localhost:8000/api/announcements?page=1"},{"active":false,"label":"Next &raquo;","page":null,"url":null}],"next_page_url":null,"path":"http://localhost:8000/api/announcements","per_page":15,"prev_page_url":null,"to":5,"total":5},"success":true}
+[00:01:18.740] Server  LOG     Middleware: { pathname: '/dashboard/admin/contact', hasToken: true }
+[00:01:18.741] Server  LOG     Middleware: Allowing access
+[00:01:18.824] Server  LOG     Middleware: { pathname: '/dashboard/admin/contact', hasToken: true }
+[00:01:18.826] Server  LOG     Middleware: Allowing access
+[00:01:19.152] Server  LOG     API Route - Laravel response status: 200
+[00:01:19.156] Server  LOG     API Route - Laravel response data: {}
+[00:01:19.157] Server  LOG     API Route - Extracted user: {}
+[00:01:19.191] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:21.380] Server  LOG     Middleware: { pathname: '/dashboard/admin/announcements', hasToken: true }
+[00:01:21.380] Server  LOG     Middleware: Allowing access
+[00:01:21.767] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:21.810] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:21.887] Browser LOG     useAuth: Starting auth check...
+[00:01:22.675] Server  LOG     API Route - Laravel response status: 200
+[00:01:22.682] Server  LOG     API Route - Laravel response data: {}
+[00:01:22.684] Server  LOG     API Route - Extracted user: {}
+[00:01:22.730] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:22.756] Server  LOG     Fetching from Laravel: "http://localhost:8000/api/announcements?page=1&per_page=15"
+[00:01:22.804] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:22.804] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:22.804] Browser LOG     useAuth: Got user: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:22.804] Browser LOG     useAuth: Setting user
+[00:01:22.804] Browser LOG     useAuth: Setting loading to false
+[00:01:22.804] Browser LOG     AdminLayout: Checking authentication...
+[00:01:22.804] Browser LOG     Fetching announcements with params: page=1&per_page=15
+[00:01:22.804] Browser LOG     AdminLayout: Checking authentication...
+[00:01:23.695] Server  LOG     API Route - Laravel response status: 200
+[00:01:23.702] Server  LOG     API Route - Laravel response data: {}
+[00:01:23.704] Server  LOG     API Route - Extracted user: {}
+[00:01:23.744] Server  LOG     API Route /api/auth/me - Token exists: true
+[00:01:23.822] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:23.822] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:23.822] Browser LOG     AdminLayout: User data received: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:23.822] Browser LOG     AdminLayout: Auth successful, user: Raiza Habana
+[00:01:24.608] Server  LOG     Laravel response: {}
+[00:01:24.716] Browser LOG     Response status: 200
+[00:01:24.716] Browser LOG     Announcements response: {"data":{"current_page":1,"data":[{"category":"Update","content":"The fiesta will begin with a thanksgiving mass at 9:00 AM, followed by a parade showcasing local talents. Evening highlights include live bands, cultural dances, and fireworks. Everyone is welcome to join the festivities.","created_at":"2026-01-21T11:55:13.000000Z","date":"2026-01-21T00:00:00.000000Z","deleted_at":null,"description":"Celebrate our annual fiesta with food, music, and tradition.","id":5,"image_url":null,"is_active":true,"priority":0,"title":"Fiesta Celebration","updated_at":"2026-01-21T11:55:13.000000Z"},{"category":"Update","content":"All residents are encouraged to attend the barangay assembly at the Perpetual Village Hall, 6:00 PM. Topics include budget allocation, upcoming projects, and community concerns. Your participation ensures transparency and collaboration.","created_at":"2026-01-21T11:54:46.000000Z","date":"2026-08-06T00:00:00.000000Z","deleted_at":null,"description":"Quarterly assembly to discuss community updates.","id":4,"image_url":"uploads/announcements/1768996486_rWmQoChCCK.jpg","is_active":true,"priority":0,"title":"Barangay Assembly Meeting","updated_at":"2026-01-21T11:54:46.000000Z"},{"category":"Health","content":"The annual Youth Sports Festival will feature basketball, volleyball, and track events. Registration is open until April 10 at the barangay office. Winners will receive medals and certificates.","created_at":"2026-01-21T11:42:20.000000Z","date":"2026-01-21T00:00:00.000000Z","deleted_at":null,"description":"A day of fun and competition for the youth.","id":3,"image_url":"uploads/announcements/1768996402_lzM4iD9aiH.jpg","is_active":true,"priority":0,"title":"Youth Sports Festival","updated_at":"2026-01-21T11:53:22.000000Z"},{"category":"Health","content":"The City Health Office will conduct free medical check‑ups, including blood pressure monitoring and basic laboratory tests. Venue: Perpetual Village Covered Court, 9:00 AM to 3:00 PM. Bring a valid ID for registration.","created_at":"2026-01-21T11:41:04.000000Z","date":"2026-01-16T00:00:00.000000Z","deleted_at":null,"description":"Free health services for all residents.","id":2,"image_url":"uploads/announcements/1768995664_VzXafhFa6h.png","is_active":true,"priority":8,"title":"Free Medical Check‑Up","updated_at":"2026-01-21T11:53:56.000000Z"},{"category":"Event","content":"Residents are invited to participate in the annual clean‑up drive. Meet at the barangay hall at 8:00 AM. Gloves, trash bags, and refreshments will be provided. Let’s work together to maintain a healthy environment.","created_at":"2026-01-21T11:40:12.000000Z","date":"2026-01-23T00:00:00.000000Z","deleted_at":null,"description":"Join us in keeping our village clean and green.","id":1,"image_url":"uploads/announcements/1768996418_0cwc6OrlQA.png","is_active":true,"priority":4,"title":"Community Clean‑Up Drive","updated_at":"2026-01-21T11:53:38.000000Z"}],"first_page_url":"http://localhost:8000/api/announcements?page=1","from":1,"last_page":1,"last_page_url":"http://localhost:8000/api/announcements?page=1","links":[{"active":false,"label":"&laquo; Previous","page":null,"url":null},{"active":true,"label":"1","page":1,"url":"http://localhost:8000/api/announcements?page=1"},{"active":false,"label":"Next &raquo;","page":null,"url":null}],"next_page_url":null,"path":"http://localhost:8000/api/announcements","per_page":15,"prev_page_url":null,"to":5,"total":5},"success":true}
+[00:01:25.456] Server  LOG     API Route - Laravel response status: 200
+[00:01:25.470] Server  LOG     API Route - Laravel response data: {}
+[00:01:25.474] Server  LOG     API Route - Extracted user: {}
+[00:01:25.592] Browser LOG     authClient.getCurrentUser - Response status: 200
+[00:01:25.592] Browser LOG     authClient.getCurrentUser - Response data: {"success":true,"user":{"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}}
+[00:01:25.592] Browser LOG     AdminLayout: User data received: {"address":"Calamba","created_at":"2026-01-20T02:50:49.000000Z","email":"infinitech.raiza@gmail.com","fraternity_number":"2023RH123456","id":1,"name":"Raiza Habana","phone_number":"+639396226278","rejection_reason":null,"role":"admin","status":"approved","updated_at":"2026-01-20T02:50:49.000000Z"}
+[00:01:25.592] Browser LOG     AdminLayout: Auth successful, user: Raiza Habana

@@ -1,6 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server"
+import { cookies } from "next/headers"
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"
+
+// PUT - Update business partner (Admin)
 export async function PUT(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }
@@ -14,54 +17,55 @@ export async function PUT(
       return NextResponse.json(
         { success: false, message: "Authentication required - no auth token found" },
         { status: 401 }
-      );
+      )
     }
 
-    // Get FormData from frontend
-    const formData = await req.formData();
+    const formData = await req.formData()
+    
+    // CRITICAL: Add _method field for Laravel method spoofing
+    // Laravel cannot handle file uploads with PUT directly
+    formData.append('_method', 'PUT')
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/admin/business-partners/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${authToken.value}`,
-        },
-        credentials: "include",
-        body: formData,
-      }
-    );
+    console.log("=== UPDATE REQUEST ===")
+    console.log("URL:", `${API_URL}/admin/business-partners/${id}`)
+    console.log("FormData contents:")
+    for (const [key, value] of formData.entries()) {
+      console.log(`  ${key}:`, value instanceof File ? `[File: ${value.name}]` : value)
+    }
 
-    const contentType = response.headers.get("content-type");
-    let data: any;
+    // Use POST with _method=PUT for Laravel compatibility
+    const response = await fetch(`${API_URL}/admin/business-partners/${id}`, {
+      method: "POST", // Changed from PUT to POST
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${authToken.value}`,
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      body: formData,
+    })
+
+    console.log("Laravel response status:", response.status)
+
+    const contentType = response.headers.get("content-type")
+    let data
 
     if (contentType?.includes("application/json")) {
-      data = await response.json();
+      data = await response.json()
+      console.log("Laravel response data:", data)
     } else {
-      const text = await response.text();
-      console.error("Non-JSON response from Laravel:", text);
+      const text = await response.text()
+      console.error("Non-JSON response from Laravel:", text)
       return NextResponse.json(
-        { success: false, message: "Invalid response from server" },
-        { status: 500 }
-      );
-    }
-
-    // Handle Laravel validation errors
-    if (response.status === 422) {
-      console.warn("Validation errors:", data.errors);
-      return NextResponse.json(
-        {
-          success: false,
-          message: data.message || "Validation failed",
-          errors: data.errors || {},
+        { 
+          success: false, 
+          message: "Invalid response from server",
+          debug: text.substring(0, 500)
         },
-        { status: 422 }
-      );
+        { status: 500 }
+      )
     }
 
     if (!response.ok) {
-      console.error("Backend error:", data);
       return NextResponse.json(
         {
           success: false,

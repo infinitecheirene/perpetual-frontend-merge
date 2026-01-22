@@ -1,93 +1,131 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"
 
+// GET - Fetch all news (admin)
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
     const queryString = searchParams.toString()
     
-    console.log("[v0] News API GET - Fetching from:", `${API_URL}/news/published${queryString ? `?${queryString}` : ''}`)
+    const endpoint = `${API_URL}/admin/news${queryString ? `?${queryString}` : ''}`
+    console.log("[Admin News] GET - Fetching from:", endpoint)
 
-    const response = await fetch(`${API_URL}/news/published${queryString ? `?${queryString}` : ''}`, {
+    const token = request.cookies.get('auth_token')?.value
+
+    if (!token) {
+      console.error("[Admin News] No auth token found")
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 }
+      )
+    }
+
+    const response = await fetch(endpoint, {
       method: "GET",
       headers: {
         Accept: "application/json",
+        Authorization: `Bearer ${token}`,
       },
     })
 
     const responseText = await response.text()
-    console.log("[v0] News API GET - Response status:", response.status)
+    console.log("[Admin News] GET - Response status:", response.status)
 
     if (!response.ok) {
+      console.error("[Admin News] GET - Error response:", responseText)
       try {
         const errorData = JSON.parse(responseText)
         return NextResponse.json(
           {
-            error: errorData.message || "Failed to fetch news",
-            details: errorData.errors || errorData,
+            success: false,
+            message: errorData.message || "Failed to fetch news",
+            errors: errorData.errors || errorData,
           },
           { status: response.status },
         )
       } catch {
-        return NextResponse.json({ error: "Failed to fetch news from server" }, { status: response.status })
+        return NextResponse.json(
+          { success: false, message: "Failed to fetch news from server" },
+          { status: response.status }
+        )
       }
     }
 
     const data = JSON.parse(responseText)
+    console.log("[Admin News] GET - Success! News count:", data.data?.data?.length || 0)
     return NextResponse.json(data)
   } catch (error) {
-    console.error("[v0] News API GET - Error:", error)
-    return NextResponse.json({ error: error instanceof Error ? error.message : "Unknown error" }, { status: 500 })
+    console.error("[Admin News] GET - Error:", error)
+    return NextResponse.json(
+      { success: false, message: error instanceof Error ? error.message : "Unknown error" },
+      { status: 500 }
+    )
   }
 }
+
+// POST - Create new news
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData()
 
-    console.log("[v0] News API - Sending request to:", `${API_URL}/news`)
-    console.log("[v0] News API - FormData entries:")
+    console.log("[Admin News] POST - Creating news")
+    console.log("[Admin News] FormData entries:")
     for (const [key, value] of formData.entries()) {
       if (value instanceof File) {
-        console.log(`[v0]   ${key}: File(${value.name}, ${value.size} bytes)`)
+        console.log(`  ${key}: File(${value.name}, ${value.size} bytes)`)
       } else {
-        console.log(`[v0]   ${key}: ${value}`)
+        console.log(`  ${key}: ${value}`)
       }
     }
 
-    const response = await fetch(`${API_URL}/news`, {
+    const token = request.cookies.get('auth_token')?.value
+
+    if (!token) {
+      console.error("[Admin News] No auth token found")
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 }
+      )
+    }
+
+    const endpoint = `${API_URL}/admin/news`
+    console.log("[Admin News] POST - Endpoint:", endpoint)
+
+    // IMPORTANT: Don't set Content-Type for FormData - browser will set it with boundary
+    const response = await fetch(endpoint, {
       method: "POST",
       body: formData,
       headers: {
         Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+        // Don't include Content-Type - let browser set multipart/form-data with boundary
       },
     })
 
     const responseText = await response.text()
-    console.log("[v0] News API - Response status:", response.status)
-    console.log("[v0] News API - Response headers:", Object.fromEntries(response.headers.entries()))
-    console.log("[v0] News API - Response body (first 500 chars):", responseText.substring(0, 500))
+    console.log("[Admin News] POST - Response status:", response.status)
+    console.log("[Admin News] POST - Response preview:", responseText.substring(0, 500))
 
     if (!response.ok) {
+      console.error("[Admin News] POST - Error response:", responseText)
       try {
         const errorData = JSON.parse(responseText)
-        console.log("[v0] News API - Parsed error data:", errorData)
+        console.log("[Admin News] POST - Parsed error:", errorData)
         return NextResponse.json(
           {
-            error: errorData.message || "Failed to create news",
-            details: errorData.errors || errorData,
-            status: response.status,
+            success: false,
+            message: errorData.message || "Failed to create news",
+            errors: errorData.errors || errorData,
           },
           { status: response.status },
         )
       } catch {
-        console.log("[v0] News API - Could not parse as JSON. Full response:")
-        console.log(responseText)
-
+        console.log("[Admin News] POST - HTML error detected")
         return NextResponse.json(
           {
-            error: "Laravel returned an error (see server logs for details)",
-            status: response.status,
+            success: false,
+            message: "Server error (check Laravel logs)",
             isHtmlError: responseText.includes("<html") || responseText.includes("<!DOCTYPE"),
           },
           { status: response.status },
@@ -96,19 +134,13 @@ export async function POST(request: NextRequest) {
     }
 
     const data = JSON.parse(responseText)
+    console.log("[Admin News] POST - Success!")
     return NextResponse.json(data)
   } catch (error) {
-    console.error("[v0] News API - Catch block error:", error)
-    const errorMessage = error instanceof Error ? error.message : "Unknown error"
-    const errorStack = error instanceof Error ? error.stack : ""
-    console.error("[v0] News API - Error stack:", errorStack)
-
+    console.error("[Admin News] POST - Error:", error)
     return NextResponse.json(
-      {
-        error: errorMessage,
-        type: error instanceof Error ? error.constructor.name : "Unknown",
-      },
-      { status: 500 },
+      { success: false, message: error instanceof Error ? error.message : "Unknown error" },
+      { status: 500 }
     )
   }
 }

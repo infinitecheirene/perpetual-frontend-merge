@@ -1,30 +1,45 @@
 import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
-export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || "http://localhost:8000/api"
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const cookieStore = await cookies()
     const authToken = cookieStore.get("auth_token")
 
     if (!authToken) {
-      return NextResponse.json({ success: false, message: "Authentication required - no auth token found" }, { status: 401 })
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 }
+      )
     }
-
-    const { id } = await context.params
 
     const formData = await request.formData()
 
-    console.log("Updating legitimacy request ID", id, "with token:", authToken.value.substring(0, 20) + "...")
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/legitimacy/${id}`, {
-      method: "PUT",
+    const response = await fetch(`${API_URL}/admin/legitimacy/${params.id}`, {
+      method: "POST", // Laravel uses POST with _method for PUT
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${authToken.value}`,
         "X-Requested-With": "XMLHttpRequest",
       },
       credentials: "include",
-      body: formData,
+      body: (() => {
+        const newFormData = new FormData()
+        // Add _method field for Laravel
+        newFormData.append("_method", "PUT")
+        
+        // Copy all fields from original formData
+        for (const [key, value] of formData.entries()) {
+          newFormData.append(key, value)
+        }
+        
+        return newFormData
+      })(),
     })
 
     const contentType = response.headers.get("content-type")
@@ -35,10 +50,11 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
     } else {
       const text = await response.text()
       console.error("Non-JSON response from Laravel:", text)
-      return NextResponse.json({ success: false, message: "Invalid response from server" }, { status: 500 })
+      return NextResponse.json(
+        { success: false, message: "Invalid response from server" },
+        { status: 500 }
+      )
     }
-
-    console.log("Laravel response:", data)
 
     if (!response.ok) {
       return NextResponse.json(
@@ -46,9 +62,8 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
           success: false,
           message: data.message || "Failed to update legitimacy request",
           errors: data.errors,
-          error: data.error,
         },
-        { status: response.status },
+        { status: response.status }
       )
     }
 
@@ -61,25 +76,27 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
         message: "Internal server error",
         error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 },
+      { status: 500 }
     )
   }
 }
 
-export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const cookieStore = await cookies()
     const authToken = cookieStore.get("auth_token")
 
     if (!authToken) {
-      return NextResponse.json({ success: false, message: "Authentication required - no auth token found" }, { status: 401 })
+      return NextResponse.json(
+        { success: false, message: "Authentication required" },
+        { status: 401 }
+      )
     }
 
-    const { id } = await context.params
-
-    console.log("Deleting legitimacy request ID", id, "with token:", authToken.value.substring(0, 20) + "...")
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/legitimacy/${id}`, {
+    const response = await fetch(`${API_URL}/admin/legitimacy/${params.id}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -89,21 +106,21 @@ export async function DELETE(request: NextRequest, context: { params: Promise<{ 
       credentials: "include",
     })
 
-    const data = await response.json()
+    const contentType = response.headers.get("content-type")
+    let data
 
-    if (!response.ok) {
+    if (contentType?.includes("application/json")) {
+      data = await response.json()
+    } else {
+      const text = await response.text()
+      console.error("Non-JSON response from Laravel:", text)
       return NextResponse.json(
-        {
-          success: false,
-          message: data.message || "Failed to delete legitimacy request",
-          errors: data.errors,
-          error: data.error,
-        },
-        { status: response.status },
+        { success: false, message: "Invalid response from server" },
+        { status: 500 }
       )
     }
 
-    return NextResponse.json(data, { status: 200 })
+    return NextResponse.json(data, { status: response.status })
   } catch (error) {
     console.error("Error deleting legitimacy request:", error)
     return NextResponse.json(
@@ -112,7 +129,7 @@ export async function DELETE(request: NextRequest, context: { params: Promise<{ 
         message: "Internal server error",
         error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 },
+      { status: 500 }
     )
   }
 }

@@ -232,6 +232,7 @@ export default function AdminLegitimacyModal({ isOpen, mode, initialData, onClos
       setIsSubmitting(false)
     }
   }
+
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-2xl w-full">

@@ -1,69 +1,37 @@
+// app/api/business-partners/route.ts
 import { NextRequest, NextResponse } from "next/server"
-import { cookies } from "next/headers"
 
-export async function GET(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url)
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"
+const IMAGE_BASE_URL = process.env.NEXT_PUBLIC_IMAGE_URL || "http://localhost:8000"
 
-    const search = searchParams.get("search") ?? ""
-    const page = searchParams.get("page") ?? "1"
-    const perPage = searchParams.get("per_page") ?? "10"
-
-    const query = new URLSearchParams({
-      page,
-      per_page: perPage,
-    })
-
-    if (search) query.append("search", search)
-
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/business-partners?${query.toString()}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-      cache: "no-store",
-    })
-
-    const data = await res.json()
-
-    if (!res.ok) {
-      return NextResponse.json({ success: false, message: "Failed to fetch businesses" }, { status: res.status })
-    }
-
-    return NextResponse.json(data)
-  } catch (error) {
-    console.error("BusinessPartner public index error:", error)
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error",
-      },
-      { status: 500 },
-    )
+// Helper function to transform photo URLs
+function transformPhotoUrl(photoPath: string | null | undefined): string | null {
+  if (!photoPath) return null
+  
+  // If already a full URL, return as is
+  if (photoPath.startsWith('http://') || photoPath.startsWith('https://')) {
+    return photoPath
   }
+  
+  // Construct full URL from relative path
+  const cleanPath = photoPath.startsWith('/') ? photoPath : `/${photoPath}`
+  return `${IMAGE_BASE_URL}${cleanPath}`
 }
 
-export async function POST(req: NextRequest) {
+// Public endpoint - Get all approved business partners
+export async function GET(req: NextRequest) {
   try {
-    const cookieStore = await cookies()
-    const token = cookieStore.get("auth_token")?.value
+    const url = new URL(req.url)
+    const queryParams = url.searchParams.toString()
 
-    if (!token) {
-      return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 })
-    }
+    console.log("Fetching public business partners from:", `${API_URL}/business-partners${queryParams ? '?' + queryParams : ''}`)
 
-    const formData = await req.formData()
-
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/business-partners`, {
-      method: "POST",
+    const res = await fetch(`${API_URL}/business-partners${queryParams ? '?' + queryParams : ''}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
         Accept: "application/json",
         "X-Requested-With": "XMLHttpRequest",
       },
-      body: formData,
-      credentials: "include",
+      cache: 'no-store', // Disable caching to always get fresh data
     })
 
     const contentType = res.headers.get("content-type")
@@ -71,34 +39,43 @@ export async function POST(req: NextRequest) {
 
     if (contentType?.includes("application/json")) {
       data = await res.json()
+      console.log("Laravel response:", data)
+      
+      // Transform photo URLs in the response
+      if (data.success && data.data) {
+        if (Array.isArray(data.data)) {
+          // Handle array of business partners
+          data.data = data.data.map((partner: any) => ({
+            ...partner,
+            photo: transformPhotoUrl(partner.photo)
+          }))
+        } else if (data.data.data && Array.isArray(data.data.data)) {
+          // Handle paginated response
+          data.data.data = data.data.data.map((partner: any) => ({
+            ...partner,
+            photo: transformPhotoUrl(partner.photo)
+          }))
+        }
+      }
+      
+      console.log("Transformed response with full image URLs")
     } else {
       const text = await res.text()
       console.error("Non-JSON response from Laravel:", text)
-      return NextResponse.json({ success: false, message: "Invalid response from server" }, { status: 500 })
+      return NextResponse.json({ 
+        success: false, 
+        message: "Invalid response from server",
+        debug: text.substring(0, 500)
+      }, { status: 500 })
     }
 
-    if (!res.ok) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: data.message || "Failed to create business",
-          errors: data.errors,
-          error: data.error,
-        },
-        { status: res.status },
-      )
-    }
-
-    return NextResponse.json(data, { status: 201 })
+    return NextResponse.json(data, { status: res.status })
   } catch (err) {
-    console.error("Error creating business:", err)
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error",
-        error: err instanceof Error ? err.message : "Unknown error",
-      },
-      { status: 500 },
-    )
+    console.error("Server error:", err)
+    return NextResponse.json({ 
+      success: false, 
+      message: "Server error",
+      error: err instanceof Error ? err.message : "Unknown error"
+    }, { status: 500 })
   }
 }

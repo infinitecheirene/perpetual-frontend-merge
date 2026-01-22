@@ -1,0 +1,19 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/admin/news/route": "app/api/admin/news/route.js",
+  "/api/announcements/published/route": "app/api/announcements/published/route.js",
+  "/api/announcements/route": "app/api/announcements/route.js",
+  "/api/auth/login/route": "app/api/auth/login/route.js",
+  "/api/auth/me/route": "app/api/auth/me/route.js",
+  "/api/business-partners/route": "app/api/business-partners/route.js",
+  "/api/news/published/route": "app/api/news/published/route.js",
+  "/api/reports/route": "app/api/reports/route.js",
+  "/api/users/route": "app/api/users/route.js",
+  "/dashboard/admin/announcements/page": "app/dashboard/admin/announcements/page.js",
+  "/dashboard/admin/news/page": "app/dashboard/admin/news/page.js",
+  "/dashboard/admin/office-contact/page": "app/dashboard/admin/office-contact/page.js",
+  "/dashboard/admin/page": "app/dashboard/admin/page.js",
+  "/dashboard/admin/users/page": "app/dashboard/admin/users/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js"
+}

@@ -192,8 +192,16 @@ export default function LoginPage() {
     }
   }
 
+  // Handle Enter key press
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      handleLogin(e as any)
+    }
+  }
+
   return (
-    <main className="min-h-screen bg-linear-to-br from-emerald-50 via-white to-orange-50 flex items-center justify-center px-4">
+    <main className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-orange-50 flex items-center justify-center px-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
